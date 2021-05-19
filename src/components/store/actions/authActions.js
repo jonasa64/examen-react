@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {signUp, signIn, signOut} from '../../facade/authFacde'
 axios.defaults.withCredentials = true;
 export const login = credentials => {
     return (dispatch, getState) => {
@@ -10,12 +11,8 @@ export const login = credentials => {
                 email: credentials.email,
                 password: credentials.password
             }
-           axios.post('http://localhost:8000/api/login', body, {
-               headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-            },
-            }).then(res => dispatch({type:"LOGIN", payload: res.data})).catch(err => console.log(err))
+             signIn(body).then(data =>  dispatch({type:"LOGIN", payload: data}))
+
         }).catch(err => console.log(err))
 
 
@@ -36,12 +33,8 @@ export const register = credentials => {
                 password: credentials.password,
                 password_confirmation: credentials.passwordConfirmation
             }
-            axios.post('http://localhost:8000/api/register', body, {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-            }).then(res => dispatch({type: "REGISTER", payload: res.data})).catch(err => console.log(err))
+           signUp(body).then(data => dispatch({type: "REGISTER", payload: data}));
+
         }).catch(err => console.log(err))
     }
 }
@@ -56,15 +49,9 @@ export const logout = () => {
                 'Content-Type': 'application/json',
             }
         }).then(response => {
-            axios.post('http://localhost:8000/api/logout', JSON.stringify(''), {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${getState().auth.token}`
-                },
-            }).then(res => {
-                console.log(res)
-                dispatch({type: "LOGOUT"})
-            }).catch(err => console.log(err))
+
+              signOut().then(data => dispatch({type: "LOGOUT"}))
+
         }).catch(err => console.log(err))
     }
 }
