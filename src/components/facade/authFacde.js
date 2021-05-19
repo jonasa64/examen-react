@@ -7,7 +7,6 @@ export const signIn = async body => {
                 'Content-Type': 'application/json'
             },
         })
-        console.log(res);
         return res.data;
     } catch (error){
         console.log(error)

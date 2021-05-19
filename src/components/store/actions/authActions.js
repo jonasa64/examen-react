@@ -50,7 +50,7 @@ export const logout = () => {
             }
         }).then(response => {
 
-              signOut().then(data => dispatch({type: "LOGOUT"}))
+              signOut(getState().auth.token).then(data => dispatch({type: "LOGOUT"}))
 
         }).catch(err => console.log(err))
     }

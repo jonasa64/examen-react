@@ -2,9 +2,7 @@ import axios from "axios";
 
 export const friendshipRequest = (recipient) => {
     return (dispatch, getState) => {
-        axios.get('http://localhost:8000/sanctum/csrf-cookie',{headers: {
-                'Accept': 'application/json',
-            }}).then(response => {
+
                 axios.post(`http://localhost:8000/api/friendship/${recipient}`,JSON.stringify(''), {
                     headers: {
                         'Accept': 'application/json',
@@ -12,15 +10,13 @@ export const friendshipRequest = (recipient) => {
                         'Authorization': `Bearer ${getState().auth.token}`
                     },
                 }).then(res => dispatch({type:"SEND_FRIEND_REQUEST"})).catch(err => console.log(err))
-        }).catch(err => console.log(err))
+
     }
 }
 
 export const friendships = () => {
     return (dispatch, getState) => {
-        axios.get('http://localhost:8000/sanctum/csrf-cookie',{headers: {
-                'Accept': 'application/json',
-            }}).then(response => {
+
             axios.get('http://localhost:8000/api/accept/friendship/', {
                 headers: {
                     'Accept': 'application/json',
@@ -28,18 +24,15 @@ export const friendships = () => {
                     'Authorization': `Bearer ${getState().auth.token}`
                 },
             }).then(res => {
-                //console.log(res.data)
                 dispatch({type:"FECHT_FRIENDS", payload: res.data})
             }).catch(err => console.log(err))
-        }).catch(err => console.log(err))
+
     }
 }
 
 export const acceptFriendship = (sender) => {
     return (dispatch, getState) => {
-        axios.get('http://localhost:8000/sanctum/csrf-cookie',{headers: {
-                'Accept': 'application/json',
-            }}).then(response => {
+
             axios.post(`http://localhost:8000/api/accept/friendship/${sender}`, JSON.stringify(''), {
                 headers: {
                     'Accept': 'application/json',
@@ -50,16 +43,12 @@ export const acceptFriendship = (sender) => {
                 console.log(res)
                 dispatch({type:"ACCEPT_FRIEND_REQUST", payload: res.data})
             }).catch(err => console.log(err))
-        }).catch(err => console.log(err))
     }
 }
 
 export const rejectFriendship = (sender) => {
     return (dispatch, getState) => {
-        axios.get('http://localhost:8000/sanctum/csrf-cookie',{headers: {
-                'Accept': 'application/json',
-            }}).then(response => {
-            axios.delete(`http://localhost:8000/api/accept/friendship/${sender}`, {
+        axios.delete(`http://localhost:8000/api/accept/friendship/${sender}`, {
                 headers: {
                     'Accept': 'application/json',
                         'Content-Type': 'application/json',
@@ -69,7 +58,7 @@ export const rejectFriendship = (sender) => {
                 console.log(res)
                 dispatch({type:"REJECT_FRIEND_REQUST"})
             }).catch(err => console.log(err))
-        }).catch(err => console.log(err))
+
     }
 }
 
