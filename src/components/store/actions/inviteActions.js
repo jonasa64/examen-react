@@ -79,31 +79,28 @@ export const deleteInvite = id => {
                   'Content-Type': 'application/json'
               }
           }).then(response => {
-              const body = {
+              let body = {
                   title: invite.title,
                   date: invite.date,
                   location: invite.location,
                   description: invite.description,
-                  image: '',
                   user_id: getState().auth.user.id
               }
-         /*       const storageRef = storage.ref(invite.image.name);
-              storageRef.put(invite.image).on('state_changed', (snap) => {
 
-              }, (err) => {
-                  console.log(err)
-              }, async () => {
-                  const url = await storageRef.getDownloadURL()
-                  body['image'] = url */
+              if(invite.image !== ''){
+                  body['image'] = invite.image
+              }
+
                   axios.put(`http://localhost:8000/api/invitations/${id}`, body, {
                       headers: {
                           'Accept': 'application/json',
                           'Content-Type': 'application/json',
                           'Authorization': `Bearer ${getState().auth.token}`
                       },
-                  }).then(res => dispatch({type: "UPDATE_INVITE", payload: res.data})).catch(err => console.log(err))
+                  }).then(res => {
+                      dispatch({type: "UPDATE_INVITE", payload: res.data})
+                  }).catch(err => console.log(err))
           }).catch(err => console.log(err))
-             // })
 
 
       }

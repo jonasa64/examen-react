@@ -1,6 +1,7 @@
 import {Component} from 'react';
 import {connect} from 'react-redux';
 import {updateInvite} from '../store/actions/inviteActions';
+import {storage} from '../../config/config';
 
 class UpdateInvite extends Component{
     constructor(props) {
@@ -16,24 +17,31 @@ class UpdateInvite extends Component{
         this.setState({description: this.props.invite.data.description})
     }
 
-    onChangeTitleHandler = e => {
-        this.setState({title: e.target.value})
+    uploadImage = file => {
+        const storageRef = storage.ref().child(`recipe-images/${file.name}`);
+        const metadata = {
+            contentType: `image/${file.name.split('.').pop()}`,
+        };
+        storageRef.put(file,metadata).on('state_changed', (snap) => {
+
+        }, (err) => {
+            console.log(err)
+        }, async () => {
+            const url = await storageRef.getDownloadURL()
+            this.setState({image: url})
+        })
     }
 
-    onChangeDateHandler = e => {
-        this.setState({date: e.target.value})
+    onChangeImageHandler = async e => {
+       await this.uploadImage(e.target.files[0])
     }
 
-    onChangeLocationHandler = e => {
-        this.setState({location: e.target.value})
-    }
-
-    onChangeDescHandler = e => {
-        this.setState({description: e.target.value})
-    }
-
-    onChangeImageHandler = e => {
-        this.setState({image: e.target.files[0]})
+    onChangeHandler = e => {
+        const value = e.target.value
+        this.setState({
+            ...this.state,
+            [e.target.name]: value
+        });
     }
 
     onSubmitHandler = async e => {
@@ -49,24 +57,24 @@ class UpdateInvite extends Component{
                 <form onSubmit={this.onSubmitHandler.bind(this)}  encType="multipart/form-data">
                     <div className="mb3">
                         <label className="form-label" htmlFor="title">Title (requried)</label>
-                        <input className='form-control' type="text" id="title" value={this.state.title}
-                               onChange={this.onChangeTitleHandler.bind(this)}/>
+                        <input name="title" className='form-control' type="text" id="title" value={this.state.title}
+                               onChange={this.onChangeHandler.bind(this)}/>
                     </div>
                     <div className="mb3">
                         <label className="form-label" htmlFor="date">Date (requried format 2021-05-16)</label>
-                        <input className='form-control' type="text" id="date" value={this.state.date}
-                               onChange={this.onChangeDateHandler.bind(this)}/>
+                        <input name="date" className='form-control' type="text" id="date" value={this.state.date}
+                               onChange={this.onChangeHandler.bind(this)}/>
                     </div>
 
                     <div className="mb3">
                         <label className="form-label" htmlFor="location">Location (requried)</label>
-                        <input className='form-control' type="text" id="location" value={this.state.location}
-                               onChange={this.onChangeLocationHandler.bind(this)}/>
+                        <input name="location" className='form-control' type="text" id="location" value={this.state.location}
+                               onChange={this.onChangeHandler.bind(this)}/>
                     </div>
 
                     <div className="mb3">
                         <label className="form-label" htmlFor="desc">Description (Optional)</label>
-                        <textarea className='form-control' id="desc" rows="3" cols="6" onChange={this.onChangeDescHandler.bind(this)}>{this.state.description}</textarea>
+                        <textarea name="description" className='form-control' id="desc" rows="3" cols="6" onChange={this.onChangeHandler.bind(this)}>{this.state.description}</textarea>
                     </div>
                     <div className='mb3'>
                         <label className="form-label" htmlFor="image">Image (Optional)</label>
