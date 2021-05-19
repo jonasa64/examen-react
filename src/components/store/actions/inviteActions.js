@@ -12,17 +12,12 @@ export const createNewInvite = invite => {
                 date: invite.date,
                 location: invite.location,
                 description: invite.description,
-                image: '',
                 user_id: getState().auth.user.id
             }
-            const storageRef = storage.ref(invite.image.name);
-            storageRef.put(invite.image).on('state_changed', (snap) => {
 
-            }, (err) => {
-                console.log(err)
-            }, async () => {
-                const url = await storageRef.getDownloadURL()
-                body['image'] = url;
+            if(invite.image !== '') {
+                body['image'] = invite.image
+            }
                 console.log(body);
                 axios.post('http://localhost:8000/api/invitations',body, {
                     headers: {
@@ -30,8 +25,7 @@ export const createNewInvite = invite => {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${getState().auth.token}`
                     },
-                }).then(res => dispatch({type:"CREATE_NEW_INVITE", payload: res.data})).catch(err => console.log(err))
-            })
+                }).then(res => dispatch({type:"CREATE_NEW_INVITE"})).catch(err => console.log(err))
         }).catch(err => console.log(err))
     }
 }
