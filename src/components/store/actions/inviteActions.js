@@ -1,12 +1,11 @@
 import axios from 'axios';
 import {storage} from '../../../config/config';
+import {create, all, one, remove, invite, update} from '../../facade/inviteFacade';
 axios.defaults.withCredentials = true;
 
 export const createNewInvite = invite => {
     return (dispatch, getState) => {
-        axios.get('http://localhost:8000/sanctum/csrf-cookie',{headers: {
-                'Accept': 'application/json',
-            }}).then(response => {
+
             let body = {
                 title: invite.title,
                 date: invite.date,
@@ -18,53 +17,29 @@ export const createNewInvite = invite => {
             if(invite.image !== '') {
                 body['image'] = invite.image
             }
-                console.log(body);
-                axios.post('http://localhost:8000/api/invitations',body, {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${getState().auth.token}`
-                    },
-                }).then(res => dispatch({type:"CREATE_NEW_INVITE"})).catch(err => console.log(err))
-        }).catch(err => console.log(err))
+            create(body, getState().auth.token).then(res => dispatch({type:"CREATE_NEW_INVITE"})).catch(err => console.log(err))
+      
     }
 }
 
 export const invitations = () => {
     return (dispatch, getState) => {
-        axios.get('http://localhost:8000/api/invitations', {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${getState().auth.token}`
-            },
-        }).then(res => dispatch({type:"FETCH_INVITES", payload: res.data})).catch(err => console.log(err))
+        
+       all(getState().auth.token).then(res => dispatch({type:"FETCH_INVITES", payload: res.data})).catch(err => console.log(err))
     }
 }
 
 
 export const invitation = (id) => {
     return (dispatch, getState) => {
-        axios.get(`http://localhost:8000/api/invitations/${id}`, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${getState().auth.token}`
-            },
-        }).then(res => dispatch({type:"FETCH_INVITE", payload: res.data})).catch(err => console.log(err))
+    one(id,getState().auth.token).then(res => dispatch({type:"FETCH_INVITE", payload: res.data})).catch(err => console.log(err))
     }
 }
 
 export const deleteInvite = id => {
     return (dispatch, getState) => {
 
-        axios.delete(`http://localhost:8000/api/invitations/${id}`, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${getState().auth.token}`
-            },
-        }).then(res => {
+remove(id,getState().auth.token).then(res => {
             dispatch({type: "DELETE_INVITE"})
         }).catch(err => console.log(err))
 
@@ -73,12 +48,7 @@ export const deleteInvite = id => {
 
   export  const updateInvite = (invite,id) => {
       return (dispatch, getState) => {
-          axios.get('http://localhost:8000/sanctum/csrf-cookie', {
-              headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json'
-              }
-          }).then(response => {
+
               let body = {
                   title: invite.title,
                   date: invite.date,
@@ -91,18 +61,9 @@ export const deleteInvite = id => {
                   body['image'] = invite.image
               }
 
-                  axios.put(`http://localhost:8000/api/invitations/${id}`, body, {
-                      headers: {
-                          'Accept': 'application/json',
-                          'Content-Type': 'application/json',
-                          'Authorization': `Bearer ${getState().auth.token}`
-                      },
-                  }).then(res => {
+                  update(body, getState().auth.token, id).then(res => {
                       dispatch({type: "UPDATE_INVITE", payload: res.data})
                   }).catch(err => console.log(err))
-          }).catch(err => console.log(err))
-
-
       }
   }
 
@@ -112,13 +73,7 @@ export const invitePersons = (users, id) => {
             data: users,
             id
         }
-        axios.post(`http://localhost:8000/api/invite/`, JSON.stringify(body), {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${getState().auth.token}`
-            },
-        }).then(res => {
+ invite(body, getState().auth.token).then(res => {
             dispatch({type: "INVITE_PERSONS"})
         }).catch(err => console.log(err))
 
