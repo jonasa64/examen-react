@@ -15,6 +15,10 @@ const inviteReducer = (state = initSate, action) => {
             }
             break;
         case "UPDATE_INVITE":
+            return {
+                ...state,
+                invite: action.payload
+            }
             break;
         case "FETCH_INVITES":
             return {
@@ -27,7 +31,15 @@ const inviteReducer = (state = initSate, action) => {
                 invite: action.payload
             }
         case "DELETE_INVITE":
-            break;
+            return {
+                ...state,
+                invite: null
+            }
+
+        case "INVITE_PERSONS":
+            return {
+                ...state
+            }
         default :
             return state;
     }
