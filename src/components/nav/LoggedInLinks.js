@@ -7,6 +7,7 @@ const LoggedInLinks = ({logout}) => {
         <React.Fragment>
             <li className="nav-item"><NavLink className="nav-link" to='/invtaions'>invtaions</NavLink></li>
             <li className="nav-item"><NavLink className="nav-link" to='/NewInvtaion'>Create new invite</NavLink></li>
+            <li className="nav-item"><NavLink className="nav-link" to='/friendships'>Friends</NavLink></li>
             <li className="nav-item"><a  className="nav-link" onClick={logout}>Logout</a></li>
         </React.Fragment>
 )
