@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom'
 import {invitation, deleteInvite, invitePersons} from '../store/actions/inviteActions';
 import {friendships} from "../store/actions/friendshipActions";
 import {Redirect} from 'react-router-dom';
+import InvitedUsers from './InvitedUser';
 class Invite extends  Component {
     constructor(props) {
         super(props);
@@ -35,6 +36,10 @@ class Invite extends  Component {
         this.setState({users: user});
     }
 
+    isOwner = () => {
+        return this.props.user.id === this.props.invite.data.user_id;
+    }
+
     render(){
         if(!this.props.user){
             return <Redirect to="/login"/>
@@ -49,31 +54,30 @@ class Invite extends  Component {
                     <h5 className="card-title">{this.props.invite.data.title}</h5>
                     <h6 className="card-subtitle mb-2 text-muted">{this.props.invite.data.location}</h6>
                     <p className="">{this.props.invite.data.description ? this.props.invite.data.description : 'No decription yet' }</p>
-                    <ul className="list-group list-group-flush mb-3">
-                        <li className="list-group-item">Acppected invites {this.props.invite.data.invited_person.filter((person) => person.status == 'accepted').length}</li>
-                        <li className="list-group-item">pending invites {this.props.invite.data.invited_person.filter((person) => person.status == 'pending').length}</li>
-                        <li className="list-group-item">rejected invites {this.props.invite.data.invited_person.filter((person) => person.status == 'rejected').length}</li>
-                    </ul>
+
+                    <InvitedUsers invited_person={this.props.invite.data.invited_person}/>
+
+
 
                     {
-                        this.props.user.id === this.props.invite.data.user_id ? <Link  to={`/invite/${this.props.invite.data.id}/edit`} className="btn btn-primary me-3">edit</Link> : null
-                    }
+                        this.isOwner() ? (<div>
+                                <Link  to={`/invite/${this.props.invite.data.id}/edit`} className="btn btn-primary me-3">edit</Link>
+                                <button onClick={this.onClickHandler.bind(this)}  className="btn btn-danger">Delete</button>
+                            <form onSubmit={this.onSubmitHandler.bind(this)}>
 
-                    {
-                        this.props.user.id === this.props.invite.data.user_id ? <button onClick={this.onClickHandler.bind(this)}  className="btn btn-danger">Delete</button> : null
-                    }
-
-                    {
-                        this.props.user.id === this.props.invite.data.user_id ? <form onSubmit={this.onSubmitHandler.bind(this)}>
-
-                            <select multiple={true} onChange={this.onChangeValueHandler.bind(this)} id="friend" >{this.props.friends && this.friendshipStatus().map((friend) => {
-                                return (
-                                    <option value={friend.sender.id}>{friend.sender.name}</option>
+                                <select multiple={true} onChange={this.onChangeValueHandler.bind(this)} id="friend" >{this.props.friends && this.friendshipStatus().map((friend) => {
+                                    return (
+                                        <option value={friend.sender.id}>{friend.sender.name}</option>
                                     )
-                            })}</select>
-                            <button type="submit">Invit persons</button>
-                        </form>: null
+                                })}</select>
+                                <button type="submit">Invit persons</button>
+                            </form>
+                            </div>
+
+
+                        ): null
                     }
+
                 </div>
             </div>
             </div>)
