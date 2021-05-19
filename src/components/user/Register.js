@@ -1,6 +1,7 @@
 import {Component} from 'react';
 import {connect} from "react-redux";
 import {register} from '../store/actions/authActions';
+import {Redirect} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 class Register extends Component {
@@ -32,6 +33,9 @@ class Register extends Component {
     }
 
     render() {
+        if(this.props.user){
+            return <Redirect to="/invtaions"/>
+        }
         return (
             <div className="card mt-5">
                 <div className="card-body">
@@ -65,6 +69,14 @@ class Register extends Component {
     }
 }
 
+
+const mapStatToProps = state => {
+    console.log(state);
+    return {
+        user: state.auth.user
+    }
+}
+
 const mapDispatchToProps = dispatch => {
     return {
         register : (data) => dispatch(register(data)),
@@ -72,4 +84,4 @@ const mapDispatchToProps = dispatch => {
 }
 
 
-export default connect(null,mapDispatchToProps)(Register)
+export default connect(mapStatToProps,mapDispatchToProps)(Register)

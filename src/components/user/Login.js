@@ -1,13 +1,14 @@
 import {Component} from 'react';
 import {connect} from "react-redux";
 import {login} from '../store/actions/authActions';
+import {Redirect} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 class Login extends Component {
     constructor(props) {
         super(props);
-        this.state = {email: '', password: ''}
+        this.state = {email: '', password: '',  fireRedirect : false}
     }
 
 
@@ -19,12 +20,16 @@ class Login extends Component {
         this.setState({password: e.target.value})
     }
 
-    onSubmitHandler = e => {
+    onSubmitHandler =  async e => {
         e.preventDefault();
         this.props.login(this.state);
+
     }
 
     render() {
+        if(this.props.user){
+            return <Redirect to="/invtaions"/>
+        }
         return (
             <div className="card mt-5">
                 <div className="card-body">
@@ -47,10 +52,18 @@ class Login extends Component {
     }
 }
 
+
+const mapStatToProps = state => {
+    console.log(state);
+    return {
+        user: state.auth.user
+    }
+}
+
 const mapDispatchToProps = dispatch => {
     return {
         login : (data) => dispatch(login(data)),
     }
 }
 
-export default connect(null, mapDispatchToProps)(Login)
+export default (connect(mapStatToProps, mapDispatchToProps)(Login))

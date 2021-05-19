@@ -1,19 +1,45 @@
 import {Component} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom'
-import {invitation} from '../store/actions/inviteActions';
+import {invitation, deleteInvite, invitePersons} from '../store/actions/inviteActions';
+import {friendships} from "../store/actions/friendshipActions";
+import {Redirect} from 'react-router-dom';
 class Invite extends  Component {
     constructor(props) {
         super(props);
+        this.state = {users: []}
     }
 
     componentDidMount(){
         this.props.invitation(this.props.match.params.id)
-        console.log(this.props.invite)
+        this.props.friendships()
     }
 
+    onClickHandler = () => {
+        this.props.deleteInvite(this.props.invite.data.id);
+        this.props.history.goBack();
+    }
+
+    onSubmitHandler = (e) => {
+        e.preventDefault();
+        console.log(this.state.users);
+        this.props.invitePersons(this.state.users, this.props.invite.data.id)
+
+    }
+    friendshipStatus = () => {
+        return this.props.friends.filter((friend) => friend.status === "accepted");
+    }
+
+    onChangeValueHandler = (e) => {
+        let user = Array.from(e.target.selectedOptions, option => option.value);
+        this.setState({users: user});
+    }
 
     render(){
+        if(!this.props.user){
+            return <Redirect to="/login"/>
+        }
+
         return(
             (this.props.invite &&
             <div className="container d-flex justify-content-center mt-5">
@@ -30,11 +56,23 @@ class Invite extends  Component {
                     </ul>
 
                     {
-                        this.props.user.id === this.props.invite.data.user_id ? <Link className="btn btn-primary me-3">edit</Link> : null
+                        this.props.user.id === this.props.invite.data.user_id ? <Link  to={`/invite/${this.props.invite.data.id}/edit`} className="btn btn-primary me-3">edit</Link> : null
                     }
 
                     {
-                        this.props.user.id === this.props.invite.data.user_id ? <Link className="btn btn-danger">Delete</Link> : null
+                        this.props.user.id === this.props.invite.data.user_id ? <button onClick={this.onClickHandler.bind(this)}  className="btn btn-danger">Delete</button> : null
+                    }
+
+                    {
+                        this.props.user.id === this.props.invite.data.user_id ? <form onSubmit={this.onSubmitHandler.bind(this)}>
+
+                            <select multiple={true} onChange={this.onChangeValueHandler.bind(this)} id="friend" >{this.props.friends && this.friendshipStatus().map((friend) => {
+                                return (
+                                    <option value={friend.sender.id}>{friend.sender.name}</option>
+                                    )
+                            })}</select>
+                            <button type="submit">Invit persons</button>
+                        </form>: null
                     }
                 </div>
             </div>
@@ -46,13 +84,17 @@ class Invite extends  Component {
 const mapStatToProps = state => {
     return {
         invite: state.invite.invite,
-        user: state.auth.user
+        user: state.auth.user,
+        friends: state.friend.friendships.data
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        invitation: (id) => dispatch(invitation(id))
+        invitation: (id) => dispatch(invitation(id)),
+        deleteInvite: (id) => dispatch(deleteInvite(id)),
+        friendships: () => dispatch(friendships()),
+        invitePersons: (users, id) => dispatch(invitePersons(users, id))
     }
 }
 

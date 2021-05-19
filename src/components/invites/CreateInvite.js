@@ -1,6 +1,7 @@
 import {Component} from 'react'
 import {createNewInvite} from '../store/actions/inviteActions';
 import {connect} from 'react-redux';
+import {Redirect} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 class CreateInvite extends Component{
@@ -35,6 +36,9 @@ class CreateInvite extends Component{
     }
 
     render(){
+        if(!this.props.user){
+            return <Redirect to="/login"/>
+        }
         return (
             <div>
                 <form onSubmit={this.onSubmitHandler.bind(this)}  encType="multipart/form-data">
@@ -71,6 +75,14 @@ class CreateInvite extends Component{
         )
     }
 }
+
+const mapStatToProps = state => {
+    console.log(state);
+    return {
+        user: state.auth.user
+    }
+}
+
 const mapDispatchToProps = dispatch => {
     return {
         createNewInvite: (data) => dispatch(createNewInvite(data))
@@ -78,4 +90,4 @@ const mapDispatchToProps = dispatch => {
 }
 
 
-export default connect(null, mapDispatchToProps)(CreateInvite);
+export default connect(mapStatToProps, mapDispatchToProps)(CreateInvite);
