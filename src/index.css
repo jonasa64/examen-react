@@ -11,3 +11,38 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.btn-primary{
+  background-color: #11C52E !important; ;
+  color: white !important;
+}
+
+.card {
+  color: white !important;
+  background-color: #113B72 !important;
+}
+
+.spacing-top-hero{
+  margin-top: 3rem;
+  height: 300px;
+}
+
+.spacing-top-feaurtes{
+  margin-top: 7rem;
+}
+
+.center {
+  margin: 0 auto !important;
+}
+
+.feaurtes-content{
+  background-color: #11C52E !important;
+  color: black !important;
+  width: 550px;
+}
+
+.list-item-color{
+  background-color: #11C52E !important;
+  color: #000000 !important;
+  border: none !important;
+}

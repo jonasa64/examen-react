@@ -11,32 +11,36 @@ import Home from './components/home/Home';
 import {BrowserRouter as Router,
     Switch,
     Route} from 'react-router-dom';
+import './index.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
 function App(props) {
   return (
        <Router>
-           <NavBar/>
-           <Switch>
-           <Route exact path="/">
-            <Home/>
-           </Route>
-           <Route exact path='/login' >
-            <Login/>
-           </Route>
-           <Route exact path='/register' >
-               <Regiser/>
-           </Route>
-           <Route exact path='/NewInvtaion'>
-               <CreateInvite/>
-           </Route>
-           <Route exact path='/invtaions'>
-           <Invites/>
-           </Route>
-           <Route exact path="/friendships">
-               <Friends/>
-           </Route>
-           <Route exact path='/invite/:id' render={props => <Invite {...props}/>}/>
-           <Route exact path='/invite/:id/edit' render={props => <UpdateInvite {...props}/>}/>
-       </Switch>
+           <div className="container">
+               <NavBar/>
+               <Switch>
+                   <Route exact path="/">
+                       <Home/>
+                   </Route>
+                   <Route exact path='/login' >
+                       <Login/>
+                   </Route>
+                   <Route exact path='/register' >
+                       <Regiser/>
+                   </Route>
+                   <Route exact path='/NewInvtaion'>
+                       <CreateInvite/>
+                   </Route>
+                   <Route exact path='/invtaions'>
+                       <Invites/>
+                   </Route>
+                   <Route exact path="/friendships">
+                       <Friends/>
+                   </Route>
+                   <Route exact path='/invite/:id' render={props => <Invite {...props}/>}/>
+                   <Route exact path='/invite/:id/edit' render={props => <UpdateInvite {...props}/>}/>
+               </Switch>
+           </div>
     </Router>
 
   );
