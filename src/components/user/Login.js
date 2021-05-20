@@ -31,20 +31,20 @@ class Login extends Component {
             return <Redirect to="/invtaions"/>
         }
         return (
-            <div className="card mt-5">
-                <div className="card-body">
+            <div className="card mt-5 login">
+                <div className="card-body mt-5">
                     <form onSubmit={this.onSubmitHandler.bind(this)}>
-                        <div className="mb3">
+                        <div className="mb-4">
                             <label className="form-label" htmlFor="email">Email</label>
                             <input className='form-control' type="email" id="email" value={this.state.email}
                                    onChange={this.onChangeEmailHandler.bind(this)}/>
                         </div>
-                        <div className="mb3">
+                        <div className="mb-4">
                             <label className="form-label" htmlFor="password">Password</label>
                             <input className='form-control' type="password" id="password" value={this.state.password}
                                    onChange={this.onChangePasswordHandler.bind(this)}/>
                         </div>
-                        <button className="btn btn-primary mt-3" type="submit">Login</button>
+                        <button className="btn btn-primary mt-3 " type="submit">Login</button>
                     </form>
                 </div>
             </div>

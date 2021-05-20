@@ -46,3 +46,7 @@ code {
   color: #000000 !important;
   border: none !important;
 }
+
+.login{
+  height: 350px;
+}
