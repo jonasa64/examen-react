@@ -15,7 +15,7 @@ const inviteReducer = (state = initSate, action) => {
         case "UPDATE_INVITE":
             return {
                 ...state,
-                invite: action.payload
+                invite: {...action.payload}
             }
             break;
         case "FETCH_INVITES":
@@ -26,7 +26,7 @@ const inviteReducer = (state = initSate, action) => {
         case "FETCH_INVITE":
             return {
                 ...state,
-                invite: action.payload
+                invite: {...action.payload}
             }
         case "DELETE_INVITE":
             return {

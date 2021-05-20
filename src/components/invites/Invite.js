@@ -47,7 +47,7 @@ class Invite extends  Component {
 
         return(
             (this.props.invite &&
-            <div className="container d-flex justify-content-center mt-5">
+            <div className="d-flex justify-content-center mt-5">
                 <div className="card"  style={{width: "28rem"}}>
                 <div className="card-body">
                     {this.props.invite.data.image && <img className="card-img-top" src={this.props.invite.data.image} alt={this.props.invite.data.title}/>}
@@ -63,14 +63,14 @@ class Invite extends  Component {
                         this.isOwner() ? (<div>
                                 <Link  to={`/invite/${this.props.invite.data.id}/edit`} className="btn btn-primary me-3">edit</Link>
                                 <button onClick={this.onClickHandler.bind(this)}  className="btn btn-danger">Delete</button>
-                            <form onSubmit={this.onSubmitHandler.bind(this)}>
+                            <form className="mt-3" onSubmit={this.onSubmitHandler.bind(this)}>
 
-                                <select multiple={true} onChange={this.onChangeValueHandler.bind(this)} id="friend" >{this.props.friends && this.friendshipStatus().map((friend) => {
+                                <select className="form-select"  multiple={true} onChange={this.onChangeValueHandler.bind(this)} id="friend" >{this.props.friends && this.friendshipStatus().map((friend) => {
                                     return (
                                         <option value={friend.sender.id}>{friend.sender.name}</option>
                                     )
                                 })}</select>
-                                <button type="submit">Invit persons</button>
+                                <button className="btn btn-primary mt-3" type="submit">Invit persons</button>
                             </form>
                             </div>
 
