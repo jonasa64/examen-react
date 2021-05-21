@@ -18,7 +18,7 @@ export const create = async (body, token) => {
 
 export const all = async token => {
     try {
-    return  await axios.get('http://localhost:8000/api/invitations', {
+    return await axios.get('http://localhost:8000/api/invitations', {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
@@ -76,11 +76,25 @@ export const update =  async (body, token, id) => {
 }
 
 export  const invite = async (body, token) => {
-    return axios.post(`http://localhost:8000/api/invite/`, JSON.stringify(body), {
+    return await axios.post(`http://localhost:8000/api/invite/`, JSON.stringify(body), {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
         },
     })
+}
+
+export const updateStatus = async (body, token, id) => {
+    try {
+        return await  axios.put(`http://localhost:8000/api/invite/${id}`, JSON.stringify(body), {
+            headers : {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        })
+    } catch (error){
+        console.log(error)
+    }
 }

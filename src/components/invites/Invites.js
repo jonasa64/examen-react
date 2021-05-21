@@ -1,8 +1,9 @@
 import {Component} from 'react';
 import {connect} from 'react-redux';
-import {Link, withRouter, Redirect} from 'react-router-dom'
-import {invitations} from '../store/actions/inviteActions'
-import 'bootstrap/dist/css/bootstrap.min.css';
+import {Link, Redirect} from 'react-router-dom';
+import {invitations} from '../store/actions/inviteActions';
+import React from 'react'
+import DisplayInvite from './DisplayInvite'
 class Invites extends Component{
     constructor(props) {
         super(props);
@@ -12,7 +13,9 @@ class Invites extends Component{
         this.props.invitations();
     }
 
-
+invitedToStatus = status => {
+        return this.props.invitedTo.filter((invite) => invite.status === status);
+}
 
     render(){
         if(!this.props.user){
@@ -20,34 +23,33 @@ class Invites extends Component{
         }
 
         return (
-            <div className="container mt-5">
+            <React.Fragment>
+                <h3 className="text-center mb-5 mt-5">invitations created by you</h3>
                 <div className="row justify-content-evenly">
 
-                        {this.props.invites && this.props.invites.map((invite) => {
-                            return (
-                                <div className="card mb-3" style={{width: "18rem"}}>
-                                    <div className="card-body" key={invite.id}>
-                                        {invite.image && <img className="card-img-top" src={invite.image} alt={invite.title}/>}
-                                        <h5 className="card-title">{invite.title}</h5>
-                                        <h6 className="card-subtitle mb-2 text-muted"><strong>Location</strong> {invite.location}</h6>
-                                        <Link className="btn btn-primary"  to={`/invite/${invite.id}`}>View</Link>
-                                    </div>
-                                </div>
-                            )
-                        })}
+                        {this.props.invites && this.props.invites.map((invite) => <DisplayInvite key={invite.id} invite={invite}/> )}
+
 
                 </div>
+                <h3 className="text-center mb-5 mt-5">Pending invitations</h3>
+                <div className="row justify-content-evenly mt-3">
+                {this.props.invitedTo && this.invitedToStatus('pending').map((invite) => <DisplayInvite key={invite.id} invite={invite}/>)}
+                </div>
+                <h3 className="text-center mb-5 mt-5">Accepted invitations</h3>
+                <div className="row justify-content-evenly mt-3">
+                    {this.props.invitedTo && this.invitedToStatus('accepted').map((invite) => <DisplayInvite key={invite.id} invite={invite}/>)}
+                </div>
+            </React.Fragment>
 
-
-            </div>
 
         )
     }
 }
 const mapStateToProps = state => {
     return {
-        invites: state.invite.invitations.data,
-        user: state.auth.user
+        invites: state.invite.invitations,
+        user: state.auth.user,
+        invitedTo: state.invite.invitedTo
     }
 }
 

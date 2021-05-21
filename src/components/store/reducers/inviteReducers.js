@@ -1,5 +1,6 @@
 const initSate = {
     invitations: [],
+    invitedTo: [],
     inviteError: null,
     invite: null,
 }
@@ -21,7 +22,8 @@ const inviteReducer = (state = initSate, action) => {
         case "FETCH_INVITES":
             return {
                 ...state,
-                invitations: action.payload
+                invitations: [...action.payload.data],
+                invitedTo: [...action.payload.invitedTo]
             }
         case "FETCH_INVITE":
             return {
@@ -37,6 +39,12 @@ const inviteReducer = (state = initSate, action) => {
         case "INVITE_PERSONS":
             return {
                 ...state
+            }
+
+        case "INVITE_STATUS_UPDATED":
+            return {
+                ...state,
+                invitedTo: [...action.payload.invitedTo]
             }
         default :
             return state;

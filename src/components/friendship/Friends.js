@@ -11,7 +11,7 @@ class Friends extends Component{
 
     componentDidMount(){
         this.props.friendships()
-        this.setState({friendships: [...this.props.friends.data] })
+        this.setState({friendships: [...this.props.friends] })
     }
 
     friendshipStatus = (status) => {
@@ -36,7 +36,7 @@ class Friends extends Component{
                                 {this.state.friendships && this.friendshipStatus('accepted').map((friend) => {
                                     return (
                                         <ul className="list-group">
-                                            <li className="list-group-item list-item-color">{friend.sender.name} <button onClick={  this.props.rejectFriendship.bind(this, friend.sender.id)} className="btn btn-danger ms-3">Remove</button></li>
+                                            <li className="list-group-item mb-3 list-item-color">{friend.sender.name} <button onClick={  this.props.rejectFriendship.bind(this, friend.sender.id)} className="btn btn-danger ms-3">Remove</button></li>
                                         </ul>
                                     )
                                 })}
