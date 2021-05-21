@@ -32,7 +32,10 @@ export const invitations = () => {
 
 export const invitation = (id) => {
     return (dispatch, getState) => {
-    one(id,getState().auth.token).then(res => dispatch({type:"FETCH_INVITE", payload: res.data})).catch(err => console.log(err))
+    one(id,getState().auth.token).then(res => {
+        console.log(res);
+        dispatch({type:"FETCH_INVITE", payload: res.data})
+    }).catch(err => console.log(err))
     }
 }
 

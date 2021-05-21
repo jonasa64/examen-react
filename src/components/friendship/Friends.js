@@ -11,7 +11,7 @@ class Friends extends Component{
 
     componentDidMount(){
         this.props.friendships()
-        this.setState({friendships: [...this.props.friends] })
+        this.setState({friendships: this.props.friends })
     }
 
     friendshipStatus = (status) => {

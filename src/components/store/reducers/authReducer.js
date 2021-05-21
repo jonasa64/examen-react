@@ -2,7 +2,7 @@ import {invitations} from '../actions/inviteActions'
 const initState = {
     token: null,
     user: null,
-    errors: null
+    error: null
 }
 
 const authReducer = (state = initState, action) => {
@@ -27,7 +27,10 @@ const authReducer = (state = initState, action) => {
                 token: null
             }
         case "LOGIN_ERROR":
-            break;
+           return {
+               ...state,
+               error: "Login failed worng email or password"
+           }
         case "REGISTER_ERROR":
             break
         default:
