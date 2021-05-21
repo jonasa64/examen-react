@@ -8,7 +8,7 @@ const InvitedTo = ({invitedTo, updateInviteStatus}) => {
         <React.Fragment>
         {invitedTo.status === 'pending' ? (
 
-            <React.Fragment><button onClick={() => updateInviteStatus('accepted', invitedTo.id) } className="btn btn-primary">Accept</button>
+            <React.Fragment><button onClick={() => updateInviteStatus('accepted', invitedTo.id) } className="btn btn-primary me-2">Accept</button>
                     <button onClick={() => updateInviteStatus('rejected', invitedTo.id) } className="btn btn-danger">Reject</button> </React.Fragment>): <button onClick={() => updateInviteStatus('rejected', invitedTo.id) } className="btn btn-danger">Reject</button> }
             </React.Fragment>
                     )

@@ -17,14 +17,14 @@ class Invite extends  Component {
     }
 
     onClickHandler = () => {
-        this.props.deleteInvite(this.props.invite.data.id);
+        this.props.deleteInvite(this.props.invite.id);
         this.props.history.goBack();
     }
 
     onSubmitHandler = (e) => {
         e.preventDefault();
         console.log(this.state.users);
-        this.props.invitePersons(this.state.users, this.props.invite.data.id)
+        this.props.invitePersons(this.state.users, this.props.invite.id)
 
     }
     friendshipStatus = () => {
@@ -37,7 +37,7 @@ class Invite extends  Component {
     }
 
     isOwner = () => {
-        return this.props.user.id === this.props.invite.data.user_id;
+        return this.props.user.id === this.props.invite.user_id;
     }
 
     render(){
@@ -50,18 +50,18 @@ class Invite extends  Component {
             <div className="d-flex justify-content-center mt-5">
                 <div className="card"  style={{width: "28rem"}}>
                 <div className="card-body">
-                    {this.props.invite.data.image && <img className="card-img-top" src={this.props.invite.data.image} alt={this.props.invite.data.title}/>}
-                    <h5 className="card-title">{this.props.invite.data.title}</h5>
-                    <h6 className="card-subtitle mb-2 text-muted">{this.props.invite.data.location}</h6>
-                    <p className="">{this.props.invite.data.description ? this.props.invite.data.description : 'No decription yet' }</p>
+                    {this.props.invite.image && <img className="card-img-top" src={this.props.invite.image} alt={this.props.invite.title}/>}
+                    <h5 className="card-title">{this.props.invite.title}</h5>
+                    <h6 className="card-subtitle mb-2 text-muted">{this.props.invite.location}</h6>
+                    <p className="">{this.props.invite.description ? this.props.invite.description : 'No decription yet' }</p>
 
-                    <InvitedUsers invited_person={this.props.invite.data.invited_person}/>
+                    <InvitedUsers invited_person={this.props.invite.invited_person}/>
 
 
 
                     {
                         this.isOwner() ? (<div>
-                                <Link  to={`/invite/${this.props.invite.data.id}/edit`} className="btn btn-primary me-3">edit</Link>
+                                <Link  to={`/invite/${this.props.invite.id}/edit`} className="btn btn-primary me-3">edit</Link>
                                 <button onClick={this.onClickHandler.bind(this)}  className="btn btn-danger">Delete</button>
                             <form className="mt-3" onSubmit={this.onSubmitHandler.bind(this)}>
 
@@ -89,7 +89,7 @@ const mapStatToProps = state => {
     return {
         invite: state.invite.invite,
         user: state.auth.user,
-        friends: state.friend.friendships.data
+        friends: state.friend.friendships
     }
 }
 
