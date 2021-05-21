@@ -28,9 +28,8 @@ function App(props) {
                    <Route exact path='/register' >
                        <Regiser/>
                    </Route>
-                   <Route exact path='/NewInvtaion'>
-                       <CreateInvite/>
-                   </Route>
+                   <Route exact path='/NewInvtaion' render={props => <UpdateInvite {...props}/>} />
+
                    <Route exact path='/invtaions'>
                        <Invites/>
                    </Route>

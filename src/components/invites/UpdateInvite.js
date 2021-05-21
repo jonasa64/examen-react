@@ -1,6 +1,7 @@
 import {Component} from 'react';
 import {connect} from 'react-redux';
-import {updateInvite} from '../store/actions/inviteActions';
+import {Redirect} from 'react-router-dom';
+import {updateInvite,createNewInvite} from '../store/actions/inviteActions';
 import {storage} from '../../config/config';
 
 class UpdateInvite extends Component{
@@ -10,11 +11,13 @@ class UpdateInvite extends Component{
     }
 
     componentDidMount(){
-        this.setState({title: this.props.invite.data.title})
-        this.setState({date: this.props.invite.data.date})
-        this.setState({location: this.props.invite.data.location})
-        this.setState({image: this.props.invite.data.image})
-        this.setState({description: this.props.invite.data.description})
+        if(this.props.invite){
+            this.setState({title: this.props.invite.title})
+            this.setState({date: this.props.invite.date})
+            this.setState({location: this.props.invite.location})
+            this.setState({image: this.props.invite.image})
+            this.setState({description: this.props.invite.description})
+        }
     }
 
     uploadImage = file => {
@@ -46,12 +49,25 @@ class UpdateInvite extends Component{
 
     onSubmitHandler = async e => {
         e.preventDefault();
-       await this.props.updateInvite(this.state, this.props.invite.data.id)
+        if(this.props.invite){
+            await this.props.updateInvite(this.state, this.props.invite.id)
+            this.props.history.push('/invtaions');
+        }
+
+        await this.props.createNewInvite(this.state);
         this.props.history.push('/invtaions');
+
+
+
     }
 
 
     render(){
+
+        if(!this.props.user){
+            return <Redirect to="/login"/>
+        }
+
         return (
             <div>
                 <form onSubmit={this.onSubmitHandler.bind(this)}  encType="multipart/form-data">
@@ -78,12 +94,12 @@ class UpdateInvite extends Component{
                     </div>
                     <div className='mb3'>
                         <label className="form-label" htmlFor="image">Image (Optional)</label>
-                        <img src={this.state.image} alt={this.state.title}/>
+                        {this.state.image && <img src={this.state.image} alt={this.state.title }/>}
                         <input  onChange={this.onChangeImageHandler.bind(this)} type="file" id="image"/>
                     </div>
 
 
-                    <button className="btn btn-primary" type="submit">Update Invitation</button>
+                    <button className="btn btn-primary" type="submit">{this.props.invite ? "Update" : "Create"} Invitation</button>
                 </form>
             </div>
         )
@@ -93,12 +109,14 @@ class UpdateInvite extends Component{
 const mapStateToProps = state => {
     return {
         invite: state.invite.invite,
+        user: state.auth.user,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        updateInvite: (data, id) => dispatch(updateInvite(data, id))
+        updateInvite: (data, id) => dispatch(updateInvite(data, id)),
+        createNewInvite: (data) => dispatch(createNewInvite(data))
     }
 }
 
