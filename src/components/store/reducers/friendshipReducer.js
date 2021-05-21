@@ -19,7 +19,7 @@ const friendshipReducer = (state = initSate, action) => {
         case "FECHT_FRIENDS":
             return {
                 ...state,
-                friendships: action.payload
+                friendships: [...action.payload.data]
             }
         default:
             return state;

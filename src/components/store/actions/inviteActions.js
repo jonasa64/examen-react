@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {storage} from '../../../config/config';
-import {create, all, one, remove, invite, update} from '../../facade/inviteFacade';
+import {create, all, one, remove, invite, update, updateStatus} from '../../facade/inviteFacade';
 axios.defaults.withCredentials = true;
 
 export const createNewInvite = invite => {
@@ -76,6 +76,17 @@ export const invitePersons = (users, id) => {
  invite(body, getState().auth.token).then(res => {
             dispatch({type: "INVITE_PERSONS"})
         }).catch(err => console.log(err))
+
+    }
+}
+
+export const updateInviteStatus = (invite, id) => {
+    return (dispatch, getState) => {
+        const body = {
+            status: invite
+        }
+
+        updateStatus(body, getState().auth.token, id).then(res => dispatch({type: "INVITE_STATUS_UPDATED", payload: res})).catch(err => console.log(err));
 
     }
 }
