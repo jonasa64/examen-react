@@ -5,10 +5,10 @@ import {connect} from 'react-redux';
 const LoggedInLinks = ({logout}) => {
     return (
         <React.Fragment>
-            <li className="nav-item"><NavLink className="nav-link" to='/invtaions'>invtaions</NavLink></li>
-            <li className="nav-item"><NavLink className="nav-link" to='/NewInvtaion'>Create new invite</NavLink></li>
-            <li className="nav-item"><NavLink className="nav-link" to='/friendships'>Friends</NavLink></li>
-            <li className="nav-item"><a  className="nav-link" onClick={logout}>Logout</a></li>
+            <li className="nav-item"><NavLink className="nav-link" activeClassName="link-active" to='/invtaions'>invtaions</NavLink></li>
+            <li className="nav-item" ><NavLink className="nav-link" activeClassName="link-active" to='/NewInvtaion'>Create new invite</NavLink></li>
+            <li className="nav-item" ><NavLink className="nav-link" to='/friendships'>Friends</NavLink></li>
+            <li className="nav-item" ><a  className="nav-link" activeClassName="link-active" onClick={logout}>Logout</a></li>
         </React.Fragment>
 )
 }
