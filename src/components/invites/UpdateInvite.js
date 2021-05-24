@@ -80,7 +80,7 @@ class UpdateInvite extends Component{
                 this.props.history.push('/invtaions');
             }
             await this.props.createNewInvite(this.state);
-           // this.props.history.push('/invtaions');
+            this.props.history.push('/invtaions');
         }
         this.props.setMessage('Pleas fill out all required files', 'danger')
     }
