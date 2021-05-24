@@ -2,6 +2,7 @@ import {Component} from 'react';
 import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 import {updateInvite,createNewInvite} from '../store/actions/inviteActions';
+import {setMessage} from '../store/actions/messageActions';
 import {storage} from '../../config/config';
 
 class UpdateInvite extends Component{
@@ -11,7 +12,7 @@ class UpdateInvite extends Component{
     }
 
     componentDidMount(){
-        if(this.props.invite){
+        if(this.props.invite && this.props.match.params.id){
             this.setState({title: this.props.invite.title})
             this.setState({date: this.props.invite.date})
             this.setState({location: this.props.invite.location})
@@ -21,22 +22,28 @@ class UpdateInvite extends Component{
     }
 
     uploadImage = file => {
-        const storageRef = storage.ref().child(`recipe-images/${file.name}`);
-        const metadata = {
-            contentType: `image/${file.name.split('.').pop()}`,
-        };
-        storageRef.put(file,metadata).on('state_changed', (snap) => {
+        if(this.validateImage(file.name.split('.').pop())){
+            const storageRef = storage.ref().child(`recipe-images/${file.name}`);
+            const metadata = {
+                contentType: `image/${file.name.split('.').pop()}`,
+            };
+            storageRef.put(file,metadata).on('state_changed', (snap) => {
 
-        }, (err) => {
-            console.log(err)
-        }, async () => {
-            const url = await storageRef.getDownloadURL()
-            this.setState({image: url})
-        })
+            }, (err) => {
+                console.log(err)
+            }, async () => {
+                const url = await storageRef.getDownloadURL()
+                this.setState({image: url})
+            })
+        }
+
+        this.props.setMessage('Allowed images are png, jpg or jpeg', 'danger')
     }
 
     onChangeImageHandler = async e => {
-       await this.uploadImage(e.target.files[0])
+        if(e.target.files[0]){
+            await this.uploadImage(e.target.files[0])
+        }
     }
 
     onChangeHandler = e => {
@@ -47,19 +54,37 @@ class UpdateInvite extends Component{
         });
     }
 
-    onSubmitHandler = async e => {
-        e.preventDefault();
-        if(this.props.invite){
-            await this.props.updateInvite(this.state, this.props.invite.id)
-            this.props.history.push('/invtaions');
+    validateImage = (imageExt) => {
+        if(imageExt === 'png' || imageExt === 'jpg' || imageExt === 'jpeg'){
+            return true;
         }
 
-        await this.props.createNewInvite(this.state);
-        this.props.history.push('/invtaions');
-
-
-
+        console.log('allowed images are png, jpg or jpeg');
+        return false;
     }
+
+    validateRequiredFields = () => {
+        if(this.state.location === '' || this.state.data === '' || this.state.title === '' ){
+            return false;
+        }
+        return true;
+    }
+
+
+    onSubmitHandler = async e => {
+        e.preventDefault();
+        if(this.validateRequiredFields()) {
+            if(this.props.invite){
+                await this.props.updateInvite(this.state, this.props.invite.id)
+                this.props.history.push('/invtaions');
+            }
+
+            await this.props.createNewInvite(this.state);
+            this.props.history.push('/invtaions');
+        }
+        this.props.setMessage('Pleas fill out all required files', 'danger')
+    }
+
 
 
     render(){
@@ -93,13 +118,13 @@ class UpdateInvite extends Component{
                         <textarea name="description" className='form-control' id="desc" rows="3" cols="6" onChange={this.onChangeHandler.bind(this)}>{this.state.description}</textarea>
                     </div>
                     <div className='mb3'>
-                        <label className="form-label" htmlFor="image">Image (Optional)</label>
                         {this.state.image && <img src={this.state.image} alt={this.state.title }/>}
+                        <label className="form-label" htmlFor="image">Image (Optional)</label>
                         <input  onChange={this.onChangeImageHandler.bind(this)} type="file" id="image"/>
                     </div>
 
 
-                    <button className="btn btn-primary" type="submit">{this.props.invite ? "Update" : "Create"} Invitation</button>
+                    <button className="btn btn-primary" type="submit">{this.props.match.params.id ? "Update" : "Create"} Invitation</button>
                 </form>
             </div>
         )
@@ -116,7 +141,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         updateInvite: (data, id) => dispatch(updateInvite(data, id)),
-        createNewInvite: (data) => dispatch(createNewInvite(data))
+        createNewInvite: (data) => dispatch(createNewInvite(data)),
+        setMessage: (message, type) => dispatch(setMessage(message, type))
     }
 }
 

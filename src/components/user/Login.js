@@ -2,7 +2,7 @@ import {Component} from 'react';
 import {connect} from "react-redux";
 import {login} from '../store/actions/authActions';
 import {Redirect} from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 
 class Login extends Component {
@@ -22,7 +22,7 @@ class Login extends Component {
 
     onSubmitHandler =  async e => {
         e.preventDefault();
-        this.props.login(this.state);
+       await this.props.login(this.state);
 
     }
 

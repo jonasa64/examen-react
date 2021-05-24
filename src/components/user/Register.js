@@ -2,7 +2,7 @@ import {Component} from 'react';
 import {connect} from "react-redux";
 import {register} from '../store/actions/authActions';
 import {Redirect} from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import {setMessage} from '../store/actions/messageActions';
 
 class Register extends Component {
     constructor(props) {
@@ -29,7 +29,30 @@ class Register extends Component {
 
     onSubmitHandler = e => {
         e.preventDefault();
-        this.props.register(this.state);
+        if(this.validateRequiredFields()){
+            if (this.validatePasswordConfirmation()){
+                this.props.register(this.state);
+            } else {
+                this.props.setMessage('Password and confirmation password does not match', 'danger');
+            }
+
+        } else {
+            this.props.setMessage('Pleas fill in all requried fileds', 'danger');
+        }
+    }
+
+    validatePasswordConfirmation = () => {
+        if(this.state.password === this.state.passwordConfirmation){
+            return true;
+        }
+        return false;
+    }
+
+    validateRequiredFields = () => {
+        if(this.state.name === '' || this.state.email === '' || this.state.password === '' || this.state.passwordConfirmation === '' ){
+            return false;
+        }
+        return true;
     }
 
     render() {
@@ -80,6 +103,7 @@ const mapStatToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         register : (data) => dispatch(register(data)),
+        setMessage: (message, type) => dispatch(setMessage(message, type))
     }
 }
 
