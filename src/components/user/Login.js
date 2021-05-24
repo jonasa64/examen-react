@@ -2,7 +2,7 @@ import {Component} from 'react';
 import {connect} from "react-redux";
 import {login} from '../store/actions/authActions';
 import {Redirect} from 'react-router-dom';
-
+import {setMessage} from '../store/actions/messageActions';
 
 
 class Login extends Component {
@@ -21,8 +21,11 @@ class Login extends Component {
     }
 
     onSubmitHandler =  async e => {
-        e.preventDefault();
-       await this.props.login(this.state);
+            e.preventDefault();
+            await this.props.login(this.state);
+
+
+
 
     }
 
@@ -63,6 +66,7 @@ const mapStatToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         login : (data) => dispatch(login(data)),
+        setMessage: (message, type) => dispatch(setMessage(message, type))
     }
 }
 

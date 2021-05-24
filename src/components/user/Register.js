@@ -31,7 +31,7 @@ class Register extends Component {
         e.preventDefault();
         if(this.validateRequiredFields()){
             if (this.validatePasswordConfirmation()){
-                this.props.register(this.state);
+                    this.props.register(this.state);
             } else {
                 this.props.setMessage('Password and confirmation password does not match', 'danger');
             }

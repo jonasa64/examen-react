@@ -12,7 +12,18 @@ export const login = credentials => {
                 email: credentials.email,
                 password: credentials.password
             }
-             signIn(body).then(data =>  dispatch({type:"LOGIN", payload: data})).catch(err => {
+             signIn(body).then(data =>  {
+                if(data.message === "Request failed with status code 422"){
+                    dispatch({type: "SET_MESSAGE", payload: {message: 'Pleas fill out email and password', type :'danger'}})
+                }
+
+                 if(data.message === "Request failed with status code 401"){
+                     dispatch({type: "SET_MESSAGE", payload: {message: 'Wrong email or password', type :'danger'}})
+                 }
+                 dispatch({type: "SET_MESSAGE", payload: {message: 'you are now looged in', type :'success'}})
+                 dispatch({type:"LOGIN", payload: data})
+             }).catch(err => {
+                 console.log(err);
              })
 
         }).catch(err => console.log(err))
@@ -53,6 +64,7 @@ export const logout = () => {
         }).then(response => {
 
               signOut(getState().auth.token).then(data => {
+                  dispatch({type: "SET_MESSAGE", payload: {message: 'you are now looged out', type :'success'}})
                   dispatch({type: "LOGOUT"})
               }).catch(err => console.log(err));
 
