@@ -8,16 +8,16 @@ export const createNewInvite = invite => {
 
             let body = {
                 title: invite.title,
-                date: invite.date,
+                date: `${invite.date.getFullYear()}-${invite.date.getMonth() + 1 >= 10 ? invite.date.getMonth() + 1 : "0" + (invite.date.getMonth() + 1)}-${invite.date.getDate() >= 10 ? invite.date.getDate() : "0" + invite.date.getDate() }`,
                 location: invite.location,
                 description: invite.description,
                 user_id: getState().auth.user.id
             }
-
+        console.log(body);
             if(invite.image !== '') {
                 body['image'] = invite.image
             }
-            create(body, getState().auth.token).then(res => dispatch({type:"CREATE_NEW_INVITE"})).catch(err => console.log(err))
+           create(body, getState().auth.token).then(res => dispatch({type:"CREATE_NEW_INVITE"})).catch(err => console.log(err))
       
     }
 }

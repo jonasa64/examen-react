@@ -3,12 +3,13 @@ import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 import {updateInvite,createNewInvite} from '../store/actions/inviteActions';
 import {setMessage} from '../store/actions/messageActions';
+import DatePicker from "react-datepicker";
 import {storage} from '../../config/config';
-
+import "react-datepicker/dist/react-datepicker.css";
 class UpdateInvite extends Component{
     constructor(props) {
         super(props);
-        this.state = {title: '', date: '', location: '', image: '', description: ''}
+        this.state = {title: '', date: new Date(), location: '', image: '', description: ''}
     }
 
     componentDidMount(){
@@ -74,13 +75,12 @@ class UpdateInvite extends Component{
     onSubmitHandler = async e => {
         e.preventDefault();
         if(this.validateRequiredFields()) {
-            if(this.props.invite){
-                await this.props.updateInvite(this.state, this.props.invite.id)
+            if(this.props.invite && this.props.match.params.id){
+               await this.props.updateInvite(this.state, this.props.invite.id)
                 this.props.history.push('/invtaions');
             }
-
             await this.props.createNewInvite(this.state);
-            this.props.history.push('/invtaions');
+           // this.props.history.push('/invtaions');
         }
         this.props.setMessage('Pleas fill out all required files', 'danger')
     }
@@ -102,9 +102,9 @@ class UpdateInvite extends Component{
                                onChange={this.onChangeHandler.bind(this)}/>
                     </div>
                     <div className="mb3">
-                        <label className="form-label" htmlFor="date">Date (requried format 2021-05-16)</label>
-                        <input name="date" className='form-control' type="text" id="date" value={this.state.date}
-                               onChange={this.onChangeHandler.bind(this)}/>
+                        <label className="form-label" htmlFor="date">Date (requried)</label>
+
+                        <DatePicker className='form-control' id="date" selected={this.state.date} onChange={date => this.setState({date})} />
                     </div>
 
                     <div className="mb3">
