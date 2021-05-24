@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {signUp, signIn, signOut} from '../../facade/authFacde'
+import {setMessage} from '../actions/messageActions';
 axios.defaults.withCredentials = true;
 export const login = credentials => {
     return (dispatch, getState) => {
@@ -11,7 +12,8 @@ export const login = credentials => {
                 email: credentials.email,
                 password: credentials.password
             }
-             signIn(body).then(data =>  dispatch({type:"LOGIN", payload: data}))
+             signIn(body).then(data =>  dispatch({type:"LOGIN", payload: data})).catch(err => {
+             })
 
         }).catch(err => console.log(err))
 
@@ -33,9 +35,9 @@ export const register = credentials => {
                 password: credentials.password,
                 password_confirmation: credentials.passwordConfirmation
             }
-           signUp(body).then(data => dispatch({type: "REGISTER", payload: data}));
+           signUp(body).then(data => dispatch({type: "REGISTER", payload: data}))
 
-        }).catch(err => console.log(err))
+        }).catch(err => console.log(err)).catch(err => console.log(err))
     }
 }
 
@@ -50,7 +52,9 @@ export const logout = () => {
             }
         }).then(response => {
 
-              signOut(getState().auth.token).then(data => dispatch({type: "LOGOUT"}))
+              signOut(getState().auth.token).then(data => {
+                  dispatch({type: "LOGOUT"})
+              }).catch(err => console.log(err));
 
         }).catch(err => console.log(err))
     }

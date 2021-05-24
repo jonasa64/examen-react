@@ -26,7 +26,7 @@ export const all = async token => {
             },
         })
     }catch (error) {
-        console.log(error);
+        return error;
     }
 }
 
@@ -41,7 +41,7 @@ export const one = async (id,token) => {
         })
 
     } catch (error) {
-        console.log(error)
+           return error
     }
 
 }
@@ -57,7 +57,7 @@ export const remove = async (id, token) => {
         })
 
     } catch (error) {
-        console.log(error);
+        return error
     }
 }
 
@@ -71,18 +71,24 @@ export const update =  async (body, token, id) => {
             },
         })
     } catch (error) {
-        console.log(error);
+        return error;
     }
 }
 
 export  const invite = async (body, token) => {
-    return await axios.post(`http://localhost:8000/api/invite/`, JSON.stringify(body), {
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        },
-    })
+    try {
+
+        return await axios.post(`http://localhost:8000/api/invite/`, JSON.stringify(body), {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+        })
+    } catch (error) {
+        return error;
+    }
+
 }
 
 export const updateStatus = async (body, token, id) => {
@@ -95,6 +101,6 @@ export const updateStatus = async (body, token, id) => {
             }
         })
     } catch (error){
-        console.log(error)
+        return error;
     }
 }
