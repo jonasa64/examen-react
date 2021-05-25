@@ -1,44 +1,27 @@
 import axios from 'axios'
-
-
-export const create = async (body, token) => {
+import {API_URL, HEADERS } from '../../config/httpConfig';
+axios.defaults.headers.common = {'Authorization': `Bearer ${localStorage.getItem('token')}`}
+export const create = async body => {
     try {
-        return await  axios.post('http://localhost:8000/api/invitations',body, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-        })
+        return await  axios.post(`${API_URL}invitations`,body, { HEADERS})
 
     }catch (error) {
         console.log(error);
     }
 }
 
-export const all = async token => {
+export const all = async () => {
     try {
-    return await axios.get('http://localhost:8000/api/invitations', {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-        })
+    return await axios.get(`${API_URL}invitations`, {HEADERS})
+
     }catch (error) {
         return error;
     }
 }
 
-export const one = async (id,token) => {
+export const one = async id => {
     try {
-       return await axios.get(`http://localhost:8000/api/invitations/${id}`, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-        })
+       return await axios.get(`${API_URL}invitations/${id}`, {HEADERS})
 
     } catch (error) {
            return error
@@ -46,60 +29,36 @@ export const one = async (id,token) => {
 
 }
 
-export const remove = async (id, token) => {
+export const remove = async id => {
     try {
-       return await axios.delete(`http://localhost:8000/api/invitations/${id}`, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-        })
+       return await axios.delete(`${API_URL}invitations/${id}`, {HEADERS})
 
     } catch (error) {
         return error
     }
 }
 
-export const update =  async (body, token, id) => {
+export const update =  async (body, id) => {
     try {
-       return await axios.put(`http://localhost:8000/api/invitations/${id}`, body, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-        })
+       return await axios.put(`${API_URL}/invitations/${id}`, JSON.stringify(body), {HEADERS})
     } catch (error) {
         return error;
     }
 }
 
-export  const invite = async (body, token) => {
+export  const invite = async (body) => {
     try {
 
-        return await axios.post(`http://localhost:8000/api/invite/`, JSON.stringify(body), {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-        })
+        return await axios.post(`${API_URL}invite/`, JSON.stringify(body), {HEADERS})
     } catch (error) {
         return error;
     }
 
 }
 
-export const updateStatus = async (body, token, id) => {
+export const updateStatus = async (body, id) => {
     try {
-        return await  axios.put(`http://localhost:8000/api/invite/${id}`, JSON.stringify(body), {
-            headers : {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        })
+        return await  axios.put(`${API_URL}invite/${id}`, JSON.stringify(body), {HEADERS})
     } catch (error){
         return error;
     }
