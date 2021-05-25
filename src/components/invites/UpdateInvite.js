@@ -5,6 +5,7 @@ import {updateInvite,createNewInvite} from '../store/actions/inviteActions';
 import {setMessage} from '../store/actions/messageActions';
 import DatePicker from "react-datepicker";
 import {storage} from '../../config/config';
+import parse from 'date-fns/parse'
 import "react-datepicker/dist/react-datepicker.css";
 class UpdateInvite extends Component{
     constructor(props) {
@@ -13,9 +14,10 @@ class UpdateInvite extends Component{
     }
 
     componentDidMount(){
+        console.log(this.props);
         if(this.props.invite && this.props.match.params.id){
             this.setState({title: this.props.invite.title})
-            this.setState({date: this.props.invite.date})
+            this.setState({date: parse(this.props.invite.date, 'yyyy-MM-dd', new Date())})
             this.setState({location: this.props.invite.location})
             this.setState({image: this.props.invite.image})
             this.setState({description: this.props.invite.description})
@@ -36,9 +38,10 @@ class UpdateInvite extends Component{
                 const url = await storageRef.getDownloadURL()
                 this.setState({image: url})
             })
+        } else {
+            this.props.setMessage('Allowed images are png, jpg or jpeg', 'danger')
         }
 
-        this.props.setMessage('Allowed images are png, jpg or jpeg', 'danger')
     }
 
     onChangeImageHandler = async e => {
@@ -60,12 +63,11 @@ class UpdateInvite extends Component{
             return true;
         }
 
-        console.log('allowed images are png, jpg or jpeg');
         return false;
     }
 
     validateRequiredFields = () => {
-        if(this.state.location === '' || this.state.data === '' || this.state.title === '' ){
+        if(this.state.location === '' || this.state.date === '' || this.state.title === '' ){
             return false;
         }
         return true;
@@ -81,8 +83,9 @@ class UpdateInvite extends Component{
             }
             await this.props.createNewInvite(this.state);
             this.props.history.push('/invtaions');
+        } else {
+            this.props.setMessage('Pleas fill out all required files', 'danger')
         }
-        this.props.setMessage('Pleas fill out all required files', 'danger')
     }
 
 
@@ -118,7 +121,7 @@ class UpdateInvite extends Component{
                         <textarea name="description" className='form-control' id="desc" rows="3" cols="6" onChange={this.onChangeHandler.bind(this)}>{this.state.description}</textarea>
                     </div>
                     <div className='mb3'>
-                        {this.state.image && <img src={this.state.image} alt={this.state.title }/>}
+                        {this.state.image && <img src={this.state.image} alt={this.state.title } width="300" height="200"/>}
                         <label className="form-label" htmlFor="image">Image (Optional)</label>
                         <input  onChange={this.onChangeImageHandler.bind(this)} type="file" id="image"/>
                     </div>
