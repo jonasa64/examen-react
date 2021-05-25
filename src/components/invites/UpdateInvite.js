@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 import {updateInvite,createNewInvite} from '../store/actions/inviteActions';
 import {setMessage} from '../store/actions/messageActions';
+import Resizer from "react-image-file-resizer";
 import DatePicker from "react-datepicker";
 import {storage} from '../../config/config';
 import parse from 'date-fns/parse'
@@ -46,7 +47,8 @@ class UpdateInvite extends Component{
 
     onChangeImageHandler = async e => {
         if(e.target.files[0]){
-            await this.uploadImage(e.target.files[0])
+            const image = await this.resizeFile(e.target.files[0]);
+            await this.uploadImage(image)
         }
     }
 
@@ -65,6 +67,22 @@ class UpdateInvite extends Component{
 
         return false;
     }
+
+   resizeFile = (file) =>
+        new Promise((resolve) => {
+            Resizer.imageFileResizer(
+                file,
+                260,
+                260,
+                file.name.split('.').pop(),
+                100,
+                0,
+                (uri) => {
+                    resolve(uri);
+                },
+                "file"
+            );
+        });
 
     validateRequiredFields = () => {
         if(this.state.location === '' || this.state.date === '' || this.state.title === '' ){
@@ -121,7 +139,7 @@ class UpdateInvite extends Component{
                         <textarea name="description" className='form-control' id="desc" rows="3" cols="6" onChange={this.onChangeHandler.bind(this)}>{this.state.description}</textarea>
                     </div>
                     <div className='mb3'>
-                        {this.state.image && <img src={this.state.image} alt={this.state.title } width="300" height="200"/>}
+                        {this.state.image && <img src={this.state.image} alt={this.state.title } width="260" height="260"/>}
                         <label className="form-label" htmlFor="image">Image (Optional)</label>
                         <input  onChange={this.onChangeImageHandler.bind(this)} type="file" id="image"/>
                     </div>
