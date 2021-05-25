@@ -11,20 +11,12 @@ class Register extends Component {
     }
 
 
-    onChangeEmailHandler = e => {
-        this.setState({email: e.target.value})
-    }
-
-    onChangePasswordHandler = e => {
-        this.setState({password: e.target.value})
-    }
-
-    onChangePasswordConfirmationHandler = e => {
-        this.setState({passwordConfirmation: e.target.value})
-    }
-
-    onChangeNameHandler = e => {
-        this.setState({name: e.target.value})
+    onChangeHandler = e => {
+        const value = e.target.value
+        this.setState({
+            ...this.state,
+            [e.target.name]: value
+        });
     }
 
     onSubmitHandler = e => {
@@ -65,24 +57,24 @@ class Register extends Component {
                     <form onSubmit={this.onSubmitHandler.bind(this)}>
                         <div className="mb3">
                             <label className="form-label" htmlFor="name">Name</label>
-                            <input className='form-control' type="text" id="name" value={this.state.name}
-                                   onChange={this.onChangeNameHandler.bind(this)}/>
+                            <input name="name" className='form-control' type="text" id="name" value={this.state.name}
+                                   onChange={this.onChangeHandler.bind(this)}/>
                         </div>
 
                         <div className="mb3">
                             <label className="form-label" htmlFor="email">Email</label>
-                            <input className='form-control' type="email" id="email" value={this.state.email}
-                                   onChange={this.onChangeEmailHandler.bind(this)}/>
+                            <input name="email" className='form-control' type="email" id="email" value={this.state.email}
+                                   onChange={this.onChangeHandler.bind(this)}/>
                         </div>
                         <div className="mb3">
                             <label className="form-label" htmlFor="password">Password</label>
-                            <input className='form-control' type="password" id="password" value={this.state.password}
-                                   onChange={this.onChangePasswordHandler.bind(this)}/>
+                            <input name="password" className='form-control' type="password" id="password" value={this.state.password}
+                                   onChange={this.onChangeHandler.bind(this)}/>
                         </div>
                         <div className="mb3">
                             <label className="form-label" htmlFor="password_confirmation">Password confirmation</label>
-                            <input className='form-control' type="password" id="password_confirmation" value={this.state.passwordConfirmation}
-                                   onChange={this.onChangePasswordConfirmationHandler.bind(this)}/>
+                            <input name="passwordConfirmation" className='form-control' type="password" id="password_confirmation" value={this.state.passwordConfirmation}
+                                   onChange={this.onChangeHandler.bind(this)}/>
                         </div>
                         <button className="btn btn-primary mt-3" type="submit">Register</button>
                     </form>

@@ -5,10 +5,10 @@ axios.defaults.withCredentials = true;
 
 export const createNewInvite = invite => {
     return (dispatch, getState) => {
-
+        const formatDate = `${invite.date.getFullYear()}-${invite.date.getMonth() + 1 >= 10 ? invite.date.getMonth() + 1 : "0" + (invite.date.getMonth() + 1)}-${invite.date.getDate() >= 10 ? invite.date.getDate() : "0" + invite.date.getDate() }`;
             let body = {
                 title: invite.title,
-                date: `${invite.date.getFullYear()}-${invite.date.getMonth() + 1 >= 10 ? invite.date.getMonth() + 1 : "0" + (invite.date.getMonth() + 1)}-${invite.date.getDate() >= 10 ? invite.date.getDate() : "0" + invite.date.getDate() }`,
+                date: formatDate ,
                 location: invite.location,
                 description: invite.description,
                 user_id: getState().auth.user.id
@@ -17,7 +17,10 @@ export const createNewInvite = invite => {
             if(invite.image !== '') {
                 body['image'] = invite.image
             }
-           create(body, getState().auth.token).then(res => dispatch({type:"CREATE_NEW_INVITE"})).catch(err => console.log(err))
+           create(body, getState().auth.token).then(res => {
+               dispatch({type: "SET_MESSAGE", payload: {message: 'Invite created', type :'success'}})
+               dispatch({type:"CREATE_NEW_INVITE"})
+           }).catch(err => console.log(err))
       
     }
 }
@@ -43,6 +46,7 @@ export const deleteInvite = id => {
     return (dispatch, getState) => {
 
 remove(id,getState().auth.token).then(res => {
+            dispatch({type: "SET_MESSAGE", payload: {message: 'Invite is Deleted', type :'success'}})
             dispatch({type: "DELETE_INVITE"})
         }).catch(err => console.log(err))
 
@@ -65,6 +69,7 @@ remove(id,getState().auth.token).then(res => {
               }
 
                   update(body, getState().auth.token, id).then(res => {
+                      dispatch({type: "SET_MESSAGE", payload: {message: 'Invite is updated', type :'success'}})
                       dispatch({type: "UPDATE_INVITE", payload: res.data})
                   }).catch(err => console.log(err))
       }
@@ -77,6 +82,7 @@ export const invitePersons = (users, id) => {
             id
         }
  invite(body, getState().auth.token).then(res => {
+            dispatch({type: "SET_MESSAGE", payload: {message: 'Persons added to invite', type :'success'}})
             dispatch({type: "INVITE_PERSONS"})
         }).catch(err => console.log(err))
 
