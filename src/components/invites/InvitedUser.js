@@ -1,5 +1,5 @@
 
-const InvitedUser = ({invited_person=[]}) => {
+const InvitedUser = ({invited_person}) => {
     const filterStatus = status => {
         return invited_person.filter((person) => person.status === status).length
     }

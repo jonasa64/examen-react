@@ -55,7 +55,7 @@ class Invite extends  Component {
                     <h6 className="card-subtitle mb-2 text-muted">{this.props.invite.location}</h6>
                     <p className="">{this.props.invite.description ? this.props.invite.description : 'No decription yet' }</p>
 
-                    <InvitedUsers invited_person={this.props.invite.invited_person}/>
+                    <InvitedUsers invited_person={this.props.invite.invited_persons}/>
 
 
 
