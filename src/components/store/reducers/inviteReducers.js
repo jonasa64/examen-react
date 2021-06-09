@@ -10,13 +10,14 @@ const inviteReducer = (state = initSate, action) => {
     switch (action.type){
         case "CREATE_NEW_INVITE":
             return {
-                ...state
+                ...state,
+                invitations: [...action.payload.data]
             }
             break;
         case "UPDATE_INVITE":
             return {
                 ...state,
-                invite: {...action.payload}
+                invitations: [...action.payload.data]
             }
             break;
         case "FETCH_INVITES":

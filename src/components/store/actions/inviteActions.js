@@ -1,5 +1,4 @@
 import axios from 'axios';
-import {storage} from '../../../config/config';
 import {create, all, one, remove, invite, update, updateStatus} from '../../facade/inviteFacade';
 axios.defaults.withCredentials = true;
 
@@ -18,7 +17,7 @@ export const createNewInvite = invite => {
             }
            create(body).then(res => {
                dispatch({type: "SET_MESSAGE", payload: {message: 'Invite created', type :'success'}})
-               dispatch({type:"CREATE_NEW_INVITE"})
+               dispatch({type:"CREATE_NEW_INVITE", payload: res.data})
            }).catch(err => console.log(err))
       
     }
@@ -92,7 +91,7 @@ export const updateInviteStatus = (invite, id) => {
         const body = {
             status: invite
         }
-        updateStatus(body, getState().auth.token, id).then(res => dispatch({type: "INVITE_STATUS_UPDATED", payload: res.data})).catch(err => console.log(err));
+        updateStatus(body,id).then(res => dispatch({type: "INVITE_STATUS_UPDATED", payload: res.data})).catch(err => console.log(err));
 
     }
 }

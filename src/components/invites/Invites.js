@@ -1,6 +1,6 @@
 import {Component} from 'react';
 import {connect} from 'react-redux';
-import {Link, Redirect} from 'react-router-dom';
+import {Link,  Redirect} from 'react-router-dom';
 import {invitations} from '../store/actions/inviteActions';
 import React from 'react'
 import DisplayInvite from './DisplayInvite'

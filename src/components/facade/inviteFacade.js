@@ -40,7 +40,7 @@ export const remove = async id => {
 
 export const update =  async (body, id) => {
     try {
-       return await axios.put(`${API_URL}/invitations/${id}`, JSON.stringify(body), {HEADERS})
+       return await axios.put(`${API_URL}/invitations/${id}`, body, {HEADERS})
     } catch (error) {
         return error;
     }
@@ -49,7 +49,7 @@ export const update =  async (body, id) => {
 export  const invite = async (body) => {
     try {
 
-        return await axios.post(`${API_URL}invite/`, JSON.stringify(body), {HEADERS})
+        return await axios.post(`${API_URL}invite/`, body, {HEADERS})
     } catch (error) {
         return error;
     }
@@ -58,7 +58,8 @@ export  const invite = async (body) => {
 
 export const updateStatus = async (body, id) => {
     try {
-        return await  axios.put(`${API_URL}invite/${id}`, JSON.stringify(body), {HEADERS})
+        const res = await  axios.put(`${API_URL}invite/${id}`,body, {HEADERS})
+        return res;
     } catch (error){
         return error;
     }
