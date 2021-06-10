@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {setMessage} from '../store/actions/messageActions';
 import {BASE_URL,API_URL, HEADERS } from '../../config/httpConfig';
-//axios.defaults.headers.common = {'Authorization': `Bearer ${localStorage.getItem('token')}`}
+axios.defaults.headers.common = {'Authorization': `Bearer ${localStorage.getItem('token')}`}
 axios.defaults.withCredentials = true;
 
 export const signIn = async body => {
@@ -43,7 +43,6 @@ export  const signOut = async (token)  => {
             const res = await axios.post(`${API_URL}logout`, JSON.stringify(''), {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': token
             })
             localStorage.removeItem('token')
             return res.data;

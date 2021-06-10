@@ -27,7 +27,6 @@ const NabBar  = ({user, message}) => {
 }
 
 const mapStatToProps = state => {
-    console.log(state);
     return {
         user: state.auth.user,
         message: state.message.message,

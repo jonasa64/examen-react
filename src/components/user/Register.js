@@ -86,7 +86,6 @@ class Register extends Component {
 
 
 const mapStatToProps = state => {
-    console.log(state);
     return {
         user: state.auth.user
     }

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import {API_URL, HEADERS, BASE_URL } from '../../config/httpConfig';
-axios.defaults.headers.common = {'Authorization': `Bearer ${localStorage.getItem('token')}`}
+//axios.defaults.headers.common = {'Authorization': `Bearer ${localStorage.getItem('token')}`}
 export const create = async (body, token) => {
     try {
         const crsf =  await axios.get(`${BASE_URL}sanctum/csrf-cookie`,{HEADERS})
@@ -8,7 +8,7 @@ export const create = async (body, token) => {
             return await  axios.post(`${API_URL}invitations`,body, {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': token})
+                })
         }
 
 
@@ -19,12 +19,14 @@ export const create = async (body, token) => {
 
 export const all = async (token) => {
     try {
-
+        const crsf =  await axios.get(`${BASE_URL}sanctum/csrf-cookie`,{HEADERS})
+        if(crsf){
             return await axios.get(`${API_URL}invitations`, {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': token
+
             })
+        }
 
 
     }catch (error) {
@@ -39,7 +41,7 @@ export const one = async (id, token) => {
             return await axios.get(`${API_URL}invitations/${id}`, {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': token
+
             })
         }
 
@@ -59,7 +61,7 @@ export const remove = async (id, token) => {
             return await axios.delete(`${API_URL}invitations/${id}`, {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': token
+
             })
         }
 
@@ -74,7 +76,7 @@ export const update =  async (body, id, token) => {
         if(crsf){
             return await axios.put(`${API_URL}/invitations/${id}`, body, {'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': token})
+                })
         }
 
     } catch (error) {
@@ -89,7 +91,6 @@ export  const invite = async (body, token) => {
             return await axios.post(`${API_URL}invite/`, body, {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': token
             })
         }
 
@@ -105,7 +106,7 @@ export const updateStatus = async (body, id, token) => {
         if(crsf){
             const res = await  axios.put(`${API_URL}invite/${id}`,body, {'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': token})
+                })
             return res;
         }
 
