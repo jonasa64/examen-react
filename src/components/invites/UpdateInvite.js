@@ -145,7 +145,7 @@ class UpdateInvite extends Component{
                     </div>
 
 
-                    <button className="btn btn-primary" type="submit">{this.props.match.params.id ? "Update" : "Create"} Invitation</button>
+                    <button className={`btn btn-primary ${this.state.image ? 'mt-3' : ''}`} type="submit">{this.props.match.params.id ? "Update" : "Create"} Invitation</button>
                 </form>
             </div>
         )

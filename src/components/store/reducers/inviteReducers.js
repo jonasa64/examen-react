@@ -24,7 +24,7 @@ const inviteReducer = (state = initSate, action) => {
             return {
                 ...state,
                 invitations: [...action.payload.data],
-                invitedTo: [...action.payload.invitedTo]
+                invitedTo:  [...action.payload.invitedTo]
             }
         case "FETCH_INVITE":
             return {
@@ -47,6 +47,8 @@ const inviteReducer = (state = initSate, action) => {
                 ...state,
                 invitedTo: [...action.payload.invitedTo]
             }
+        case "REST":
+            return initSate;
         default :
             return state;
     }

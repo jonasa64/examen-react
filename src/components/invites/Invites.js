@@ -26,17 +26,19 @@ invitedToStatus = status => {
             <React.Fragment>
                 <h3 className="text-center mb-5 mt-5">invitations created by you</h3>
                 <div className="row justify-content-evenly">
-
+                    {this.props.invites.length === 0 && <p className="text-center">{"You have not created any invitations"}</p>}
                         {this.props.invites && this.props.invites.map((invite) => <DisplayInvite key={invite.id} invite={invite}/> )}
 
 
                 </div>
                 <h3 className="text-center mb-5 mt-5">Pending invitations</h3>
                 <div className="row justify-content-evenly mt-3">
+                 {this.invitedToStatus('pending').length === 0 && <p className="text-center">{"You have no accepted invitations"}</p>}
                 {this.props.invitedTo && this.invitedToStatus('pending').map((invite) => <DisplayInvite key={invite.id} invite={invite}/>)}
                 </div>
                 <h3 className="text-center mb-5 mt-5">Accepted invitations</h3>
                 <div className="row justify-content-evenly mt-3">
+                    {this.invitedToStatus('accepted').length === 0 && <p className="text-center">{"You have no accepted invitations"}</p>}
                     {this.props.invitedTo && this.invitedToStatus('accepted').map((invite) => <DisplayInvite key={invite.id} invite={invite}/>)}
                 </div>
             </React.Fragment>
