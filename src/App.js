@@ -8,6 +8,8 @@ import Invite from './components/invites/Invite';
 import UpdateInvite from './components/invites/UpdateInvite';
 import Friends from './components/friendship/Friends';
 import Home from './components/home/Home';
+import Search from './components/search/Search';
+import Footer from './components/search/Footer';
 import {BrowserRouter as Router,
     Switch,
     Route} from 'react-router-dom';
@@ -39,7 +41,11 @@ function App(props) {
                    </Route>
                    <Route exact path='/invite/:id' render={props => <Invite {...props}/>}/>
                    <Route exact path='/invite/:id/edit' render={props => <UpdateInvite {...props}/>}/>
+                   <Route exact path="/search">
+                       <Search/>
+                   </Route>
                </Switch>
+           <Footer/>
            </div>
     </Router>
 

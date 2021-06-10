@@ -37,7 +37,7 @@ invitedToStatus = status => {
                 {this.props.invitedTo && this.invitedToStatus('pending').map((invite) => <DisplayInvite key={invite.id} invite={invite}/>)}
                 </div>
                 <h3 className="text-center mb-5 mt-5">Accepted invitations</h3>
-                <div className="row justify-content-evenly mt-3">
+                <div className="row justify-content-evenly mt-3 spacing-bottom">
                     {this.invitedToStatus('accepted').length === 0 && <p className="text-center">{"You have no accepted invitations"}</p>}
                     {this.props.invitedTo && this.invitedToStatus('accepted').map((invite) => <DisplayInvite key={invite.id} invite={invite}/>)}
                 </div>

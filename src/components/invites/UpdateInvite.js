@@ -115,7 +115,7 @@ class UpdateInvite extends Component{
         }
 
         return (
-            <div>
+            <div className="spacing-bottom">
                 <form onSubmit={this.onSubmitHandler.bind(this)}  encType="multipart/form-data">
                     <div className="mb-3">
                         <label className="form-label" htmlFor="title">Title (requried)</label>

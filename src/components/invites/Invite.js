@@ -47,7 +47,7 @@ class Invite extends  Component {
 
         return(
             (this.props.invite &&
-            <div className={`d-flex justify-content-center mt-5 ${!this.isOwner() ? 'mb-5' : ''}`}>
+            <div className={`d-flex justify-content-center mt-5 spacing-bottom ${!this.isOwner() ? 'mb-5' : ''}`}>
                 <div className="card"  style={{width: "28rem"}}>
                 <div className="card-body">
                     {this.props.invite.image && <img className="card-img-top" src={this.props.invite.image} alt={this.props.invite.title}/>}
