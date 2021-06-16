@@ -16,6 +16,7 @@ const NabBar  = ({user, message}) => {
                     <NavLink to="/" className="navbar-brand">FoodFace</NavLink>
                     <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                         {user ? <LoggedInLinks/> : <LoggedOutLinks/>}
+                        <li className="nav-item" ><NavLink className="nav-link" activeClassName="link-active" to='/tips'>Tips</NavLink></li>
                     </ul>
                 </div>
             </nav>

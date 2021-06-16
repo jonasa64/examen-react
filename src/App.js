@@ -10,6 +10,7 @@ import Friends from './components/friendship/Friends';
 import Home from './components/home/Home';
 import Search from './components/search/Search';
 import Footer from './components/search/Footer';
+import Tips from './components/tips/Tips';
 import {BrowserRouter as Router,
     Switch,
     Route} from 'react-router-dom';
@@ -43,6 +44,9 @@ function App(props) {
                    <Route exact path='/invite/:id/edit' render={props => <UpdateInvite {...props}/>}/>
                    <Route exact path="/search">
                        <Search/>
+                   </Route>
+                   <Route exact path="/tips">
+                       <Tips/>
                    </Route>
                </Switch>
            <Footer/>
