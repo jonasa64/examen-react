@@ -1,15 +1,20 @@
 import axios from 'axios'
 import {API_URL, HEADERS, BASE_URL } from '../../config/httpConfig';
-//axios.defaults.headers.common = {'Authorization': `Bearer ${localStorage.getItem('token')}`}
+axios.defaults.headers.common = {'Authorization': `Bearer ${localStorage.getItem('token')}`}
 export const create = async (body, token) => {
     try {
-        const crsf =  await axios.get(`${BASE_URL}sanctum/csrf-cookie`,{HEADERS})
-        if(crsf){
-            return await  axios.post(`${API_URL}invitations`,body, {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                })
-        }
+
+    const request = await  fetch(`${API_URL}invitations`, {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization' : `Bearer ${token}`
+        },
+        method: "POST",
+        body: JSON.stringify(body)
+    })
+
+        return await request.json();
 
 
     }catch (error) {
@@ -19,14 +24,17 @@ export const create = async (body, token) => {
 
 export const all = async (token) => {
     try {
-        const crsf =  await axios.get(`${BASE_URL}sanctum/csrf-cookie`,{HEADERS})
-        if(crsf){
-            return await axios.get(`${API_URL}invitations`, {
+
+      const request =  await  fetch(`${API_URL}invitations`, {
+            headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
+                'Authorization' : `Bearer ${token}`
+            }
+        })
+        const  data = await  request.json();
+        return data;
 
-            })
-        }
 
 
     }catch (error) {
@@ -36,14 +44,16 @@ export const all = async (token) => {
 
 export const one = async (id, token) => {
     try {
-        const crsf =  await axios.get(`${BASE_URL}sanctum/csrf-cookie`,{HEADERS})
-        if(crsf){
-            return await axios.get(`${API_URL}invitations/${id}`, {
+
+        const request =  await  fetch(`${API_URL}invitations/${id}`, {
+            headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
+                'Authorization' : `Bearer ${token}`
+            }
+        })
 
-            })
-        }
+        return  await  request.json();
 
 
     } catch (error) {
@@ -54,16 +64,14 @@ export const one = async (id, token) => {
 
 export const remove = async (id, token) => {
     try {
-        const crsf =  await axios.get(`${BASE_URL}sanctum/csrf-cookie`,{HEADERS})
-        if(crsf) {
 
 
             return await axios.delete(`${API_URL}invitations/${id}`, {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
+                'Authorization' : `Bearer ${token}`
 
             })
-        }
 
     } catch (error) {
         return error
@@ -72,12 +80,19 @@ export const remove = async (id, token) => {
 
 export const update =  async (body, id, token) => {
     try {
-        const crsf =  await axios.get(`${BASE_URL}sanctum/csrf-cookie`,{HEADERS})
-        if(crsf){
-            return await axios.put(`${API_URL}/invitations/${id}`, body, {'Accept': 'application/json',
+
+       const request =  await fetch(`${API_URL}invitations/${id}`, {
+            headers: {
+                'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                })
-        }
+                'Authorization' : `Bearer ${token}`
+            },
+            method: "PUT",
+            body: JSON.stringify(body)
+        })
+
+        return await request.json();
+
 
     } catch (error) {
         return error;
@@ -86,13 +101,12 @@ export const update =  async (body, id, token) => {
 
 export  const invite = async (body, token) => {
     try {
-        const crsf =  await axios.get(`${BASE_URL}sanctum/csrf-cookie`,{HEADERS})
-        if(crsf){
+
             return await axios.post(`${API_URL}invite/`, body, {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
+                'Authorization' : `Bearer ${token}`
             })
-        }
 
     } catch (error) {
         return error;
@@ -100,15 +114,20 @@ export  const invite = async (body, token) => {
 
 }
 
-export const updateStatus = async (body, id, token) => {
+export const updateStatus = async (bodyData, id, token) => {
     try {
-        const crsf =  await axios.get(`${BASE_URL}sanctum/csrf-cookie`,{HEADERS})
-        if(crsf){
-            const res = await  axios.put(`${API_URL}invite/${id}`,body, {'Accept': 'application/json',
+        const requets = await  fetch(`${API_URL}invite/${id}`, {
+            headers: {
+                'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                })
-            return res;
-        }
+                'Authorization' : `Bearer ${token}`
+            },
+            body: JSON.stringify(bodyData),
+            method: "PUT",
+
+        })
+
+        return await  requets.json();
 
     } catch (error){
         return error;

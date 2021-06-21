@@ -12,6 +12,7 @@ class Invite extends  Component {
     }
 
     componentDidMount(){
+        console.log(this.props)
         this.props.invitation(this.props.match.params.id)
         this.props.friendships()
     }
@@ -67,7 +68,7 @@ class Invite extends  Component {
 
                                 <select className="form-select"  multiple={true} onChange={this.onChangeValueHandler.bind(this)} id="friend" >{this.props.friends && this.friendshipStatus().map((friend) => {
                                     return (
-                                        <option value={friend.sender.id}>{friend.sender.name}</option>
+                                        <option value={friend.id}>{friend.sender.name}</option>
                                     )
                                 })}</select>
                                 <button className="btn btn-primary mt-3" type="submit">Invit persons</button>

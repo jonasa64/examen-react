@@ -26,7 +26,9 @@ export const createNewInvite = invite => {
 export const invitations = () => {
     return (dispatch, getState) => {
         
-       all(getState().auth.token).then(res => dispatch({type:"FETCH_INVITES", payload: res.data})).catch(err => console.log(err))
+       all(getState().auth.token).then(res => {
+           dispatch({type:"FETCH_INVITES", payload: res})
+       }).catch(err => console.log(err))
     }
 }
 
@@ -34,7 +36,7 @@ export const invitations = () => {
 export const invitation = (id) => {
     return (dispatch, getState) => {
     one(id,getState().auth.token).then(res => {
-        dispatch({type:"FETCH_INVITE", payload: res.data})
+        dispatch({type:"FETCH_INVITE", payload: res})
     }).catch(err => console.log(err))
     }
 }
@@ -52,10 +54,10 @@ remove(id, getState().auth.token ).then(res => {
 
   export  const updateInvite = (invite,id) => {
       return (dispatch, getState) => {
-
+          const formatDate = `${invite.date.getFullYear()}-${invite.date.getMonth() + 1 >= 10 ? invite.date.getMonth() + 1 : "0" + (invite.date.getMonth() + 1)}-${invite.date.getDate() >= 10 ? invite.date.getDate() : "0" + invite.date.getDate() }`;
               let body = {
                   title: invite.title,
-                  date: invite.date,
+                  date: formatDate,
                   location: invite.location,
                   description: invite.description,
                   user_id: getState().auth.user.id
@@ -65,9 +67,11 @@ remove(id, getState().auth.token ).then(res => {
                   body['image'] = invite.image
               }
 
+              console.log(body);
+
                   update(body, id, getState().auth.token ).then(res => {
                       dispatch({type: "SET_MESSAGE", payload: {message: 'Invite is updated', type :'success'}})
-                      dispatch({type: "UPDATE_INVITE", payload: res.data})
+                      dispatch({type: "UPDATE_INVITE", payload: res})
                   }).catch(err => console.log(err))
       }
   }
@@ -91,7 +95,7 @@ export const updateInviteStatus = (invite, id) => {
         const body = {
             status: invite
         }
-        updateStatus(body,id, getState().auth.token).then(res => dispatch({type: "INVITE_STATUS_UPDATED", payload: res.data})).catch(err => console.log(err));
+        updateStatus(body,id, getState().auth.token).then(res => dispatch({type: "INVITE_STATUS_UPDATED", payload: res})).catch(err => console.log(err));
 
     }
 }

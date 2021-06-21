@@ -62,7 +62,6 @@ code {
 }
 
 .recipe {
-  font-size: 62.5% !important;
   width: 30rem !important;
   margin: 3rem !important;
   display: flex !important;
@@ -148,7 +147,6 @@ code {
 }
 
 .recipes {
-  font-size: 62.5% !important;
   width: 90% !important;
   display: flex !important;
   align-items: center !important;
@@ -179,14 +177,14 @@ code {
 
 
 .footer{
-  margin-top:1rem;
-  padding :30px;
+  display: flex;
+  flex-direction: column;
   border: 3px solid #4CAF50;
   background-color: rgb(20, 20, 18);
-  position:fixed;
-  bottom: 0;
-  left: 0;
   width: 100%;
+  bottom: 0;
+  position: fixed;
+  left: 0;
 
 }
 
