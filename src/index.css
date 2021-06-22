@@ -106,7 +106,7 @@ code {
   position: relative !important;
 }
 
-.alert {
+.alert-custom {
   position: absolute !important;
   top: -3rem !important;
   left: 0 !important;
@@ -116,7 +116,7 @@ code {
   padding: 0.2rem !important;
 }
 
-.alert h3 {
+.alert-custom h3 {
   font-size: 1.8rem !important;
   color: #fff !important;
   font-weight: 400 !important;

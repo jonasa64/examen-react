@@ -2,7 +2,7 @@ import React from "react";
 
 const Alert = ({ alert }) => {
   return (
-    <div className="alert spacing-top-feaurtes">
+    <div className="alert-custom spacing-top-feaurtes">
       <h3>{alert}</h3>
     </div>
   );

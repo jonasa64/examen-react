@@ -20,7 +20,7 @@ class Flash extends Component{
 
     render(){
         return (
-            this.state.visibility && <div className={`alert alert-${this.state.type}`}>
+            this.state.visibility && <div className={`mt-5  alert alert-${this.state.type}`}>
                 <p>{this.state.message}</p>
             </div>
         )
