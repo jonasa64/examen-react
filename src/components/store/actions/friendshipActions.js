@@ -1,9 +1,9 @@
 import axios from "axios";
-
+import {API_URL, HEADERS, BASE_URL } from '../../../config/httpConfig;
 export const friendshipRequest = (recipient) => {
     return (dispatch, getState) => {
 
-                axios.post(`http://localhost:8000/api/friendship/${recipient}`,JSON.stringify(''), {
+                axios.post(`${API_URL}friendship/${recipient}`,JSON.stringify(''), {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
@@ -17,7 +17,7 @@ export const friendshipRequest = (recipient) => {
 export const friendships = () => {
     return (dispatch, getState) => {
 
-            axios.get('http://localhost:8000/api/accept/friendship/', {
+            axios.get(`${API_URL}accept/friendship/`, {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
@@ -33,7 +33,7 @@ export const friendships = () => {
 export const acceptFriendship = (sender) => {
     return (dispatch, getState) => {
 
-            axios.post(`http://localhost:8000/api/accept/friendship/${sender}`, JSON.stringify(''), {
+            axios.post(`${API_URL}accept/friendship/${sender}`, JSON.stringify(''), {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ export const acceptFriendship = (sender) => {
 
 export const rejectFriendship = (sender) => {
     return (dispatch, getState) => {
-        axios.delete(`http://localhost:8000/api/accept/friendship/${sender}`, {
+        axios.delete(`${API_URL}accept/friendship/${sender}`, {
                 headers: {
                     'Accept': 'application/json',
                         'Content-Type': 'application/json',
