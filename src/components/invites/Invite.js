@@ -18,8 +18,10 @@ class Invite extends  Component {
     }
 
     onClickHandler = () => {
-        this.props.deleteInvite(this.props.invite.id);
-        this.props.history.goBack();
+
+            this.props.deleteInvite(this.props.invite.id);
+            this.props.history.goBack();
+
     }
 
     onSubmitHandler = (e) => {
