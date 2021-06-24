@@ -1,5 +1,5 @@
 import axios from "axios";
-import {API_URL, HEADERS, BASE_URL } from '../../../config/httpConfig;
+import {API_URL} from '../../../config/httpConfig';
 export const friendshipRequest = (recipient) => {
     return (dispatch, getState) => {
 
