@@ -46,9 +46,11 @@ class UpdateInvite extends Component{
     }
 
     onChangeImageHandler = async e => {
-        if(e.target.files[0]){
+        if(e.target.files[0] && this.validateImage(e.target.files[0].name.split('.').pop())){
             const image = await this.resizeFile(e.target.files[0]);
             await this.uploadImage(image)
+        } else {
+            this.props.setMessage('Allowed images are png, jpg or jpeg', 'danger')
         }
     }
 
