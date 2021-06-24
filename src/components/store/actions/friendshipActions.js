@@ -56,7 +56,7 @@ export const rejectFriendship = (sender) => {
                 },
             }).then(res => {
                 console.log(res)
-                dispatch({type:"REJECT_FRIEND_REQUST"})
+                dispatch({type:"REJECT_FRIEND_REQUST", payload: res.data})
             }).catch(err => console.log(err))
 
     }

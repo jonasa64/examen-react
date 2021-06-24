@@ -27,7 +27,7 @@ class Friends extends Component{
             return <Redirect to="/login"/>
         }
         return (
-            <div>
+            <div className="spacing-bottom">
                 <div className="card mt-5">
                     <div className="card-body">
                         <h3 className="text-center">Your friends</h3>
@@ -35,7 +35,7 @@ class Friends extends Component{
                             <div className="card-body">
                                 {this.state.friendships && this.friendshipStatus('accepted').map((friend) => {
                                     return (
-                                        <ul className="list-group">
+                                        <ul className="list-group" key={friend.id}>
                                             <li className="list-group-item mb-3 list-item-color">{friend.sender.name} <button onClick={  this.props.rejectFriendship.bind(this, friend.sender.id)} className="btn btn-danger ms-3">Remove</button></li>
                                         </ul>
                                     )
@@ -48,14 +48,35 @@ class Friends extends Component{
                 </div>
                 <div className="card mt-5">
                     <div className="card-body">
-                        <h3 className="text-center">Friend Requests</h3>
+                        <h3 className="text-center">Received Friend Requests</h3>
                         <div className="card">
                             <div className="card-body">
                                 {this.state.friendships && this.friendshipStatus('pending').map((friend) => {
                                     return (
                                         <div key={friend.id}>
                                             <ul className="list-group">
-                                                <li className="list-group-item list-item-color">{friend.sender.name} <button onClick={this.props.acceptFriendship.bind(this, friend.sender.id)} className="btn btn-primary me-3 ms-3">Accept</button><button onClick={ this.props.rejectFriendship.bind(this,friend.sender.id)} className="btn btn-danger">Reject</button></li>
+                                                <li className="list-group-item mb-3 list-item-color">{friend.sender.name} <button onClick={this.props.acceptFriendship.bind(this, friend.sender.id)} className="btn btn-primary me-3 ms-3">Accept</button><button onClick={ this.props.rejectFriendship.bind(this,friend.sender.id)} className="btn btn-danger">Reject</button></li>
+                                            </ul>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div className="card mt-5">
+                    <div className="card-body">
+                        <h3 className="text-center">Send Friend Requests</h3>
+                        <div className="card">
+                            <div className="card-body">
+                                {this.props.requests && this.props.requests.map((friend) => {
+                                    return (
+                                        <div key={friend.id}>
+                                            <ul className="list-group">
+                                                <li className="list-group-item list-item-color">{friend.recipient.name}</li>
+                                                <li className="list-group-item mb-3 list-item-color">{friend.status}</li>
                                             </ul>
                                         </div>
                                     )
@@ -73,7 +94,8 @@ class Friends extends Component{
 const mapStateToProps = state => {
     return {
         friends: state.friend.friendships,
-        user: state.auth.user
+        user: state.auth.user,
+        requests: state.friend.sendFriendshipRequests
     }
 
 }
